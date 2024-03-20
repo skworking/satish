@@ -16,11 +16,17 @@ import { toast } from 'react-toastify';
 
 const ImportFile = () => {
 
-    const [dataset, setData] = useState(JSON.parse(window?.sessionStorage?.getItem('data')));
-    const [filename, setFileName] = useState(sessionStorage?.getItem('filename'))
+    const [dataset, setData] = useState(null);
+    const [filename, setFileName] = useState()
     const [show, setShow] = useState(false);
     let parsedData;
 
+    useEffect(()=>{
+        const dataFromSessionStorage = JSON.parse(sessionStorage.getItem('data'));
+        const filename=sessionStorage?.getItem('filename')
+        setFileName(filename)
+        setData(dataFromSessionStorage)
+    },[])
 
     const get = () => {
         const dataFromsessionStorage = sessionStorage.getItem('data');
@@ -165,7 +171,7 @@ const ImportFile = () => {
 
                                 {/* <Image src={user?.image?.original || 'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg'} alt={user?.name} className="inline-block " width='50' height={20} /> */}
 
-                                <img src={user?.image?.original ? `http://localhost:3000/Images/` + user?.image?.original : ''} width={100} height={50} />
+                                <img src={user?.image?.original ? `http://localhost:3000/Images/` + user?.image?.original : ''} alt='' width={100} height={50} />
                             </td>
                             {/* <td className="py-2 px-4 ">
                         

@@ -505,9 +505,9 @@ const Editdetails = (props) => {
 
             <div className="flex p-2 gap-2 ">
               {formData.image && formData.image !== '' &&
-               <img src={formData?.image?.original ? `http://localhost:3000/Images/`+formData?.image?.original:''}  width={100} height={50} />
+              <img src={formData?.image?.original ? `http://localhost:3000/Images/`+formData?.image?.original:''}  width={100} height={50} />
                 // <Image src={formData?.image?.original} width={100} height={100} />
-              }
+                             }
             </div>
               </section>
 
@@ -550,13 +550,12 @@ const Editdetails = (props) => {
                 />
                 <div className="flex p-2 gap-2  ">
                 {formData.gallery.length > 0 &&
-                    formData.gallery.map((item,index) => {
-                    // console.log(item);
+                    formData.gallery.map((item) => {
                     return (
                         <div key={item._id} 
                     
                         className="w-[100px]  flex flex-col justify-between text-center flex-wrap">
-                           <img src={item?.original ? `http://localhost:3000/Images/`+item?.original:''}  width={100} height={100} />
+                           <img src={item?.original ? `http://localhost:3000/Images/${item?.original}`:''} alt=''  width={100} height={100} />
                         {/* <Image src={item?.original} className="  object-contain" width={200} height={100} /> */}
                         <IoIosCloseCircle  
                             className='cursor-pointer m-3 hover:fill-white'
@@ -584,7 +583,7 @@ const Editdetails = (props) => {
            
          </div>
          {formData?.variations?.map((option, index) => (
-            <form className="mt-10">
+            <form className="mt-10" key={index}>
               <h1 className="text-lg text-center text-black ">Variations Form </h1>
               <div className={styles.containerdiv}>
                 <label className={styles.containerdivright}>
