@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { toast } from "react-toastify";
-
+import * as yup from 'yup'; 
 export const options = [
     { value: 'chocolate', label: 'Chocolate' },
     { value: 'strawberry', label: 'Strawberry' },
@@ -37,23 +38,21 @@ export const handleNumberChange = (e,setFormData,index) => {
    
     }));
   };
- 
-export const handleSubmit = async (e,formData,router) => {
-    e.preventDefault();
-    console.log("data", formData);
-    let result = await fetch("http://localhost:3000/api/users", {
-      method: "POST",
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
-      body: JSON.stringify(formData)
-    });
-    result = await result.json();
-    if (result.success) {
-      toast.success('Record Add successful!');
-      router.push('/user-list');
 
-    }
+export const handleSubmit = async (e,formData,router) => {
+      e.preventDefault();
+      let result = await fetch("http://localhost:3000/api/users", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        body: JSON.stringify(formData)
+      });
+      result = await result.json();
+      if (result.success) {
+        toast.success('Record Add successful!');
+        router.push('/user-list');
+      }
   }
 
 export const handleSelectOption = (selectedOption, index, formData, setFormData) => {

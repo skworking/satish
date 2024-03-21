@@ -2,7 +2,7 @@ import React from 'react'
 import { IoIosCloseCircle } from 'react-icons/io';
 
 const File = (props) => {
-   const {stylediv,inputstyle,text,typeinput,onChange,val,image,option,images,gallery,onClick}=props
+   const {stylediv,inputstyle,text,typeinput,onChange,val,image,option,images,gallery,onClick,errors}=props
   return (
     <div className={`${stylediv}`}>
         {text}:
@@ -15,6 +15,7 @@ const File = (props) => {
             multiple={option}
         >  
         </input>
+        <span className='text-red-400'>{errors}</span> 
         <div className="flex p-2 gap-2 ">            
             <img src={image && `http://localhost:3000/Images/`+image}  className={`${!image ?'hidden':''} `} width={100} height={100} />
 
