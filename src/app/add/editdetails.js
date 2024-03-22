@@ -6,6 +6,7 @@ import Select from 'react-select'
 import { options, tags, attributetab, handleChange, handleNumberChange } from '../component/common/comman';
 import validateForm from '../component/common/validation';
 import Input from '../component/Reuseable/input';
+import CustomConfirmation from '../component/common/customConfirmation';
 
 const Editdetails = (props) => {
   const { data, oncancel, onUpdate } = props;
@@ -35,6 +36,7 @@ const Editdetails = (props) => {
   const [selectedOptions, setSelectedOptions] = useState([] | data.tag);
   const [selectedOptionsAttribute, setSelectedOptionsAttribute] = useState([]);
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false)
 
   const handleUpdate = async (e) => {
     e.preventDefault()
@@ -43,10 +45,26 @@ const Editdetails = (props) => {
       setValidationErrors(errors)
       console.log("form validation failed", errors);
     } else {
-      const _id = data._id;
-      onUpdate(formData, _id)
+      setIsConfirmationOpen(true);
+
+      // const _id = data._id;
+      // onUpdate(formData, _id)
     }
   }
+
+  //////////model /////////
+ const handleConfirmUpdate = async () => {
+    // Call your update function with formData
+  // console.log(id);
+    const _id = data._id;
+    onUpdate(formData, _id)
+
+    setIsConfirmationOpen(false); // Close modal after success or error
+  };
+
+  const handleCancelUpdate = () => {
+    setIsConfirmationOpen(false);
+  };
 
   /// this value add manualy now thake come from redux latter
   // const options = [
@@ -419,7 +437,6 @@ const Editdetails = (props) => {
       })
     }));
   }
-
 
   return (
     <div>
@@ -804,6 +821,15 @@ const Editdetails = (props) => {
           <button className={'bg-green-300 sm:w-[200px] p-2 hover:bg-green-500'} onClick={handleUpdate}>Update</button>
         </div>
       </div>
+     
+      {isConfirmationOpen && (
+        <CustomConfirmation
+          message="Are you sure you want to update the data?"
+          onConfirm={handleConfirmUpdate}
+          onCancel={handleCancelUpdate}
+        />
+      )}
+
     </div>
   )
 }
