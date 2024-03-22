@@ -56,6 +56,7 @@ const AddUser = () => {
 
   const handleformSubmit=async(e)=>{
     e.preventDefault()
+    console.log("cll");
     const errors=await validateForm(formData);
     if(errors){
       setValidationErrors(errors)
@@ -94,11 +95,10 @@ const AddUser = () => {
 
       <h5 className={styles.heading}>User Registration Form</h5>
 
-      {data?.['variations[0].attribute.name']}
       <form className={`${styles.formstyle} `} method="post" >
 
         <div className='md:grid   lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 flex  flex-col'>
-          <Input text={'name'} onChange={(e) => handleChange(e, setFormData)} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} errors={validationErrors.name}/>
+          <Input text={'name'} onChange={(e) => handleChange(e, setFormData)}  typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} errors={validationErrors.name}/>
           <Input text={'slug'} onChange={(e) => handleChange(e, setFormData)} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} errors={validationErrors.slug}/>
           <Input text={'description'} onChange={(e) => handleChange(e, setFormData)} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} val={formData.description} errors={validationErrors.description} />
           <Input text={'quantity'} onChange={(e) => handleNumberChange(e, setFormData)} typeinput="tel" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} val={formData.quantity} errors={validationErrors.quantity} />
@@ -125,7 +125,7 @@ const AddUser = () => {
               options={options}
 
             /> 
-            <span className="text-red-400">{validationErrors.tag}</span>
+            <span className="text-red-500">{validationErrors.tag}</span>
           </div>
 
         </div>
@@ -162,7 +162,7 @@ const AddUser = () => {
                     placeholder="Selected Attribute"
                     options={attributetab}
                   />
-                    <span className="text-red-400">{validationErrors?.[`variations[${index}].attribute.values`]}</span>
+                    <span className="text-red-500">{validationErrors?.[`variations[${index}].attribute.values`]}</span>
                 </div>
 
               </div>
@@ -189,13 +189,24 @@ const AddUser = () => {
           {formData.variation_options.map((option, index) => (
             <div key={index}>
               <div className={`md:grid  lg:grid-cols-3 md:grid-cols-2 grid-cols-1 md:gap-4 flex flex-col`}>
-                <Input text={'title'} onChange={(e) => { handleVariationOptionChange(e, index, setFormData) }} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} val={option?.title} />
-                <Input text={'price'} onChange={(e) => { handleVariationOptionChange(e, index, setFormData) }} typeinput="number" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} val={option?.price} />
-                <Input text={'sale_price'} onChange={(e) => { handleVariationOptionChange(e, index, setFormData) }} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} val={option?.sale_price} />
-                <Input text={'quantity'} onChange={(e) => { handleVariationOptionNumberChange(e, index, setFormData) }} typeinput="tel" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} val={option?.quantity} />
+                <Input text={'title'} onChange={(e) => { handleVariationOptionChange(e, index, setFormData) }} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} val={option?.title} 
+                 errors={validationErrors?.[`variation_options[${index}].title`]}
+                 />
+                <Input text={'price'} onChange={(e) => { handleVariationOptionChange(e, index, setFormData) }} typeinput="number" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} val={option?.price} 
+                errors={validationErrors?.[`variation_options[${index}].price`]}
+                />
+                <Input text={'sale_price'} onChange={(e) => { handleVariationOptionChange(e, index, setFormData) }} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} val={option?.sale_price} 
+                errors={validationErrors?.[`variation_options[${index}].sale_price`]}
+                />
+                <Input text={'quantity'} onChange={(e) => { handleVariationOptionNumberChange(e, index, setFormData) }} typeinput="tel" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} val={option?.quantity} 
+                errors={validationErrors?.[`variation_options[${index}].quantity`]}
+                />
                 <Input text={'is_disable'} onChange={(e) => { handleVariationOptionBoolean(e, index, setFormData) }} typeinput="tel" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} val={option?.is_disable} />
-                <Input text={'sku'} onChange={(e) => { handleVariationOptionChange(e, index, setFormData) }} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} val={option?.sku} />
-                <div className={`md:col-span-1 px-5 sm:px-0 mt-3 w-5/6 m-auto `}>
+                <Input text={'sku'} onChange={(e) => { handleVariationOptionChange(e, index, setFormData) }} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} val={option?.sku} 
+                  errors={validationErrors?.[`variation_options[${index}].sku`]}
+                />
+                <div className={`md:col-span-1 px-5 sm:px-0 mt-3 w-5/6 m-auto `}
+      >
                   <Select
                     isMulti={true}
                     value={option.name}
@@ -203,6 +214,7 @@ const AddUser = () => {
                     placeholder=" Select Options"
                     options={tags}
                   />
+                   <span className="text-red-500">{validationErrors?.[`variation_options[${index}].options`]}</span>
                 </div>
 
               </div>
