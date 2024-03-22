@@ -185,6 +185,7 @@ const DisplayUser = () => {
     });
     
     saveAs(blob, "users.xlsx");
+    toast.success('File download successfully')
   };
 
   return (
