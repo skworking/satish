@@ -11,6 +11,7 @@ import Editdetails from '../add/editdetails';
 import * as XLSX from 'xlsx';
 import { saveAs } from "file-saver";
 import {  toast } from 'react-toastify';
+import CustomConfirmation from '../component/common/customConfirmation';
 
 
 const DisplayUser = () => {
@@ -20,7 +21,7 @@ const DisplayUser = () => {
   const [search,setSearch]=useState('')
   const router = useRouter()
 
-
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false)
 
   const fetchData = async () => {
     try {
@@ -40,18 +41,42 @@ const DisplayUser = () => {
     fetchData();
   }, []);
 
-  const handleDelete=async(id)=>{
-    console.log(id);
-    let response =await fetch("http://localhost:3000/api/users/"+id,{
+  const handleConfirmUpdate = async (id) => {
+    // Call your update function with formData
+   console.log("call",id);
+   let response =await fetch("http://localhost:3000/api/users/"+id,{
       method:"DELETE"
     });
     response=await response.json();
     if(response.success){
+      setIsConfirmationOpen(false); // Close modal after success or error
 
       toast.success('Delete successful!');
       // router.push('/user-list',{scroll:false})
       fetchData()
     }
+  };
+
+  const handleCancelUpdate = () => {
+    setIsConfirmationOpen(false);
+  };
+
+  const handleDelete=async(id)=>{
+  
+    setIsConfirmationOpen(true);
+    handleConfirmUpdate(id)
+
+    // console.log(id);
+    // let response =await fetch("http://localhost:3000/api/users/"+id,{
+    //   method:"DELETE"
+    // });
+    // response=await response.json();
+    // if(response.success){
+
+    //   toast.success('Delete successful!');
+    //   // router.push('/user-list',{scroll:false})
+    //   fetchData()
+    // }
   }
 
   const handleEdit=(data)=>{
@@ -160,6 +185,7 @@ const DisplayUser = () => {
     });
     
     saveAs(blob, "users.xlsx");
+    toast.success('File download successfully')
   };
 
   return (
@@ -218,15 +244,19 @@ const DisplayUser = () => {
               <td className={`py-2 px-4 sm:flex-1  ${styles.wrap} `}>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2" onClick={()=>handleEdit(user)}>Edit</button>
                 <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded " onClick={()=>{handleDelete(user._id)}}>Delete</button>
+            
                 
               </td>
+              
             </tr>
             
           )):
           "Data not Found"
           }
         </tbody>
+
       </table>
+    
      </>
     }
           {show && 
@@ -237,6 +267,15 @@ const DisplayUser = () => {
            
           </div>
           }
+
+          {isConfirmationOpen && (
+                <CustomConfirmation
+                  message="Are you sure you want to delete the data?"
+                  onConfirm={handleConfirmUpdate}
+                  onCancel={handleCancelUpdate}
+                />
+            
+          )}
     </div>
   )
 }
