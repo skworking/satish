@@ -56,7 +56,6 @@ const AddUser = () => {
 
   const handleformSubmit=async(e)=>{
     e.preventDefault()
-    console.log("cll");
     const errors=await validateForm(formData);
     if(errors){
       setValidationErrors(errors)
