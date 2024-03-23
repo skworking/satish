@@ -90,7 +90,7 @@ const DisplayUser = () => {
       setShow(!show)
   }
   const handleUpdate=async(data,id)=>{
-    let result=await fetch(`http://localhost:3000/api/users/${id}`,{
+    let result=await fetch(`api/users/${id}`,{
       method:"PUT",
       headers:{
         "Content-Type": "application/json"
@@ -119,7 +119,7 @@ const DisplayUser = () => {
     setSearch(search)
   }
   const searching=async()=>{
-    let result=await fetch(`http://localhost:3000/api/users/search?name=${search}`)
+    let result=await fetch(`api/users/search?name=${search}`)
     const data = await result.json();
     console.log(data);
     if(data.result.length > 0 )

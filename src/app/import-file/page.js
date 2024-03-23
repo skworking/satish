@@ -87,7 +87,7 @@ const ImportFile = () => {
 
     const handleDelete = async (id) => {
 
-        let response = await fetch("http://localhost:3000/api/users/" + id, {
+        let response = await fetch("api/users/" + id, {
             method: "DELETE"
         })
         response = await response.json();
@@ -113,7 +113,7 @@ const ImportFile = () => {
     }
 
     const handleUpdate = async (data, id) => {
-        let result = await fetch(`http://localhost:3000/api/users/${id}`, {
+        let result = await fetch(`api/users/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"

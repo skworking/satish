@@ -193,7 +193,7 @@ export const handleAddVariationOption = (e,formData,setFormData) => {
 export const handleImage = async (e,setFormData) => {
   e.preventDefault();
   const file = e.target.files[0];
-  try {
+    try {
     const data = new FormData()
     data.append("file", file)
     const res = await fetch('/api/upload', { method: 'POST', body: data })
