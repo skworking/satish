@@ -196,7 +196,7 @@ export const handleImage = async (e,setFormData) => {
     try {
     const data = new FormData()
     data.append("file", file)
-    const res = await fetch('/api/upload', { method: 'POST', body: data })
+        const res = await fetch('/api/upload', { method: 'POST', body: data })
     if (res.ok) {
       console.log(res);
       setFormData(prevState => ({
@@ -209,6 +209,7 @@ export const handleImage = async (e,setFormData) => {
 
       }));
     } else {
+      
       console.error("Failed to upload image. Status:", res);
     }
   } catch (err) {
