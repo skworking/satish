@@ -25,7 +25,7 @@ const DisplayUser = () => {
 
   const fetchData = async () => {
     try {
-      const result = await fetch("http://localhost:3000/api/users");
+      const result = await fetch("api/users");
       const data = await result.json();
       if (data.success) {
         setUsers(data.result);
@@ -41,10 +41,10 @@ const DisplayUser = () => {
     fetchData();
   }, []);
 
-  const handleConfirmUpdate = async (id) => {
+  const handleConfirmDelete = async (id) => {
     // Call your update function with formData
    console.log("call",id);
-   let response =await fetch("http://localhost:3000/api/users/"+id,{
+   let response =await fetch("api/users/"+id,{
       method:"DELETE"
     });
     response=await response.json();
@@ -64,7 +64,7 @@ const DisplayUser = () => {
   const handleDelete=async(id)=>{
   
     setIsConfirmationOpen(true);
-    handleConfirmUpdate(id)
+    handleConfirmDelete(id)
 
     // console.log(id);
     // let response =await fetch("http://localhost:3000/api/users/"+id,{
