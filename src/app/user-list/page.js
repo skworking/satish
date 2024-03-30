@@ -41,7 +41,7 @@ const DisplayUser = () => {
     fetchData();
   }, []);
 
-  const handleConfirmDelete = async (id) => {
+  const handleConfirmDelete = async(id) => {
     // Call your update function with formData
    console.log("call",id);
    let response =await fetch("api/users/"+id,{
@@ -66,7 +66,7 @@ const DisplayUser = () => {
     setIsConfirmationOpen(true);
     handleConfirmDelete(id)
 
-    // console.log(id);
+    // // console.log(id);
     // let response =await fetch("http://localhost:3000/api/users/"+id,{
     //   method:"DELETE"
     // });
@@ -271,7 +271,7 @@ const DisplayUser = () => {
           {isConfirmationOpen && (
                 <CustomConfirmation
                   message="Are you sure you want to delete the data?"
-                  onConfirm={handleConfirmUpdate}
+                  onConfirm={handleConfirmDelete}
                   onCancel={handleCancelUpdate}
                 />
             

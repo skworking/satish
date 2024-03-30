@@ -7,17 +7,21 @@ import { options, tags, attributetab, handleChange, handleNumberChange } from '.
 import validateForm from '../component/common/validation';
 import Input from '../component/Reuseable/input';
 import CustomConfirmation from '../component/common/customConfirmation';
+import Button from '../component/Reuseable/button';
+import File from '../component/Reuseable/file';
 
 const Editdetails = (props) => {
   const { data, oncancel, onUpdate } = props;
+  console.log(data);
   const [formData, setFormData] = useState({
     name: data?.name,
     slug: data?.slug,
     description: data?.description,
-    image: {
-      thumbnail: data?.image?.thumbnail || '',
-      original: data?.image?.original || ''
-    },
+    images: data?.images,
+    // images: {
+    //   thumbnail: data?.images?.thumbnail || '',
+    //   original: data?.images?.original || ''
+    // },
     gallery: data.gallery,
     tag: data.tag,
     product_type: data.product_type,
@@ -115,7 +119,7 @@ const Editdetails = (props) => {
   //   }));
   // };
 
-  const handleImage = async (e) => {
+  const handleImage = async (e,index,formData,setFormData) => {
     e.preventDefault();
     const file = e.target.files[0];
 
@@ -125,14 +129,20 @@ const Editdetails = (props) => {
       const res = await fetch('/api/upload', { method: 'PUT', body: data })
       if (res.ok) {
         console.log(res);
+        const updatedImages = [...formData.images];
+        updatedImages[index] = {
+          thumbnail: file.name,
+          original: file.name
+        };
         setFormData(prevState => ({
           ...prevState,
-          image: {
-            ...prevState.image,
-            // id:randomid,
-            thumbnail: file.name,
-            original: file.name
-          }
+          images:updatedImages
+          // images: {
+          //   ...prevState.images,
+          //   // id:randomid,
+          //   thumbnail: file.name,
+          //   original: file.name
+          // }
 
         }));
       } else {
@@ -189,6 +199,18 @@ const Editdetails = (props) => {
     })
 
   }
+  
+  const handleImgRemove = (index) => {
+
+    let updated = [...formData.images]
+    updated.splice(index, 1)
+    setFormData({
+      ...formData,
+      images: updated
+    })
+
+  }
+
 
   const handleSelect = (selectedOption) => {
 
@@ -437,7 +459,13 @@ const Editdetails = (props) => {
       })
     }));
   }
-
+  const handleAddImage = (e) => {
+    e.preventDefault()
+    setFormData(prevState => ({
+      ...prevState,
+      images: [...prevState.images, { }],
+    }));
+  };
   return (
     <div>
       <h1 className={styles.heading}>Record Details Edit({data?._id})</h1>
@@ -535,24 +563,7 @@ const Editdetails = (props) => {
             />
             <span className='text-red-600'>{validationErrors.weight}</span>
           </label>
-          <section className={styles.containerdivright}>
-            Select Image:
-            <input className={`${styles.containerdivinput} cursor-pointer`}
-              type="file"
-
-              accept=".png,.jpg"
-              name="image"
-              onChange={handleImage}
-
-            />
-
-            <div className="flex p-2 gap-2 ">
-              {formData.image && formData.image !== '' &&
-                <img src={formData?.image?.original ? `http://localhost:3000/Images/` + formData?.image?.original : ''} width={100} height={50} />
-                // <Image src={formData?.image?.original} width={100} height={100} />
-              }
-            </div>
-          </section>
+       
 
           <label className={styles.containerdivright}>
             Product Type:
@@ -629,6 +640,50 @@ const Editdetails = (props) => {
           </section>
 
         </div>
+          <section >
+            Select Image:
+            {/* <input className={`${styles.containerdivinput} cursor-pointer`}
+              type="file"
+
+              accept=".png,.jpg"
+              name="image"
+              onChange={handleImage}
+
+            /> */}
+
+            <div className="flex flex-col md:flex-row p-2 gap-2 ">
+              {formData.images.length> 0 &&
+                formData.images.map((item,index)=>{
+                  return(
+                    <div>
+                     <File
+                      key={index}
+                      text={`Image ${index + 1}`}
+                      onChange={(e) => handleImage(e, index,formData,setFormData)}
+                      typeinput="file"
+                      option={false}
+                      stylediv={styles.containerdivright}
+                      inputstyle={styles.containerdivinput}
+                      image={item[index]?.original}
+                      // errors={validationErrors?.images && validationErrors?.images[index]}
+                    />
+                    <img src={item?.original ? `http://localhost:3000/Images/` + item?.original : ''} width={100} height={50} />
+                    <IoIosCloseCircle
+                        className='cursor-pointer m-3 hover:fill-white'
+                        onClick={() => { handleImgRemove(index) }} />
+
+                    </div>
+                  )
+                })
+                // <Image src={formData?.image?.original} width={100} height={100} />
+              }
+            </div>
+            <Button
+              onClick={handleAddImage}
+              styles={"sm:w-1/6 w-full sm:ml-10 bg-gray-300"}
+              text="Add More"
+            />
+          </section>
         {formData?.variations?.map((option, index) => (
           <form className="mt-10" key={index}>
             <h1 className="text-lg text-center text-black ">Variations Form </h1>

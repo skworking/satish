@@ -38,8 +38,7 @@ const AddUser = () => {
     name: '',
     slug: '',
     description: '',
-    image: {
-    },
+    images: [],
     gallery: [],
     tag: [],
     product_type: '',
@@ -59,9 +58,9 @@ const AddUser = () => {
     const errors=await validateForm(formData);
     if(errors){
       setValidationErrors(errors)
-      console.log("form validation failed",errors);
+      // console.log("form validation failed",errors);
     }else{
-      console.log('Form validation successful. Submitting form...');
+      // console.log('Form validation successful. Submitting form...');
       await handleSubmit(e,formData,router)
     }
   }
@@ -82,6 +81,44 @@ const AddUser = () => {
       ]
     }));
   }
+
+  const handleImage = async (e, index, formData, setFormData) => {
+    e.preventDefault();
+    console.log(formData);
+    const file = e.target.files[0];
+    try {
+      const data = new FormData();
+      data.append("file", file);
+      const res = await fetch('/api/upload', { method: 'POST', body: data });
+      if (res.ok) {
+        console.log(res);
+        const updatedImages = [...formData.images];
+        updatedImages[index] = {
+          thumbnail: file.name,
+          original: file.name
+        };
+        setFormData(prevState => ({
+          ...prevState,
+          images: updatedImages
+        }));
+      } else {
+        console.error("Failed to upload image. Status:", res);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  
+
+  const handleAddImage = (e) => {
+    e.preventDefault()
+    setFormData(prevState => ({
+      ...prevState,
+      images: [...prevState.images,{ thumbnail: '', original: '' }],
+    }));
+  };
+
+  console.log(formData);
   const data={
     'variations[0].attribute.name': "Attribute name is required",
     
@@ -106,7 +143,6 @@ const AddUser = () => {
           <Input text={'brand'} onChange={(e) => handleChange(e, setFormData)} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} errors={validationErrors.brand}/>
           <Input text={'weight'} onChange={(e) => handleChange(e, setFormData)} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} errors={validationErrors.weight}/>
           
-          <File text={'Image'} onChange={(e) => handleImage(e, setFormData)} typeinput="file" option={false} stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} image={formData.image.original} errors={validationErrors?.Image} />
 
           <Input text={'product_type'} onChange={(e) => handleChange(e, setFormData)} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} errors={validationErrors.product_type} />
           <Input text={'min_price'} onChange={(e) => handleNumberChange(e, setFormData)} typeinput="string" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} value={formData.min_price} errors={validationErrors.min_price} />
@@ -126,6 +162,31 @@ const AddUser = () => {
             /> 
             <span className="text-red-500">{validationErrors.tag}</span>
           </div>
+
+          {/* <File text={'Image'} onChange={(e) => handleImage(e, setFormData)} typeinput="file" option={false} stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} image={formData.image.original} errors={validationErrors?.Image} /> */}
+        </div>
+        <div>
+        {Object.keys(formData.images).map((key, index) => {
+           const image = formData.images[key];
+          return(
+
+        <File
+          key={index}
+          text={`Image ${index + 1}`}
+          onChange={(e) => handleImage(e, index,formData,setFormData)}
+          typeinput="file"
+          option={false}
+          stylediv={styles.containerdivright}
+          inputstyle={styles.containerdivinput}
+          image={image.original}
+          // errors={validationErrors?.images && validationErrors?.images[index]}
+        />
+        )})}
+        <Button
+          onClick={handleAddImage}
+          styles={"w-1/6 ml-10 bg-gray-300"}
+          text="Add More"
+        />
 
         </div>
         

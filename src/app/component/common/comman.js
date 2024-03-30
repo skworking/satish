@@ -190,33 +190,33 @@ export const handleAddVariationOption = (e,formData,setFormData) => {
   });
 };
 
-export const handleImage = async (e,setFormData) => {
-  e.preventDefault();
-  const file = e.target.files[0];
-    try {
-    const data = new FormData()
-    data.append("file", file)
-        const res = await fetch('/api/upload', { method: 'POST', body: data })
-    if (res.ok) {
-      console.log(res);
-      setFormData(prevState => ({
-        ...prevState,
-        image: {
-          ...prevState.image,
-          thumbnail: file.name,
-          original: file.name
-        }
+// export const handleImage = async (e,setFormData) => {
+//   e.preventDefault();
+//   const file = e.target.files[0];
+//     try {
+//     const data = new FormData()
+//     data.append("file", file)
+//         const res = await fetch('/api/upload', { method: 'POST', body: data })
+//     if (res.ok) {
+//       console.log(res);
+//       setFormData(prevState => ({
+//         ...prevState,
+//         image: {
+//           ...prevState.image,
+//           thumbnail: file.name,
+//           original: file.name
+//         }
 
-      }));
-    } else {
+//       }));
+//     } else {
       
-      console.error("Failed to upload image. Status:", res);
-    }
-  } catch (err) {
-    console.log(err);
-  }
+//       console.error("Failed to upload image. Status:", res);
+//     }
+//   } catch (err) {
+//     console.log(err);
+//   }
 
-}
+// }
 
 export const handleGalleryImage = async (e,setFormData) => {
   e.preventDefault();

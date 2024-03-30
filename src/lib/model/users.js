@@ -50,7 +50,7 @@ const UserSchema=new mongoose.Schema({
     name:String,
     slug:String,
     description:String,
-    image: ImageSchema,
+    images:[ImageSchema],
     gallery:[GalleryItemSchema],
     quantity:Number,
     price:String,
