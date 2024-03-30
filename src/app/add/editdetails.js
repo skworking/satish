@@ -655,7 +655,7 @@ const Editdetails = (props) => {
               {formData.images.length> 0 &&
                 formData.images.map((item,index)=>{
                   return(
-                    <div>
+                    <>
                      <File
                       key={index}
                       text={`Image ${index + 1}`}
@@ -672,7 +672,7 @@ const Editdetails = (props) => {
                         className='cursor-pointer m-3 hover:fill-white'
                         onClick={() => { handleImgRemove(index) }} />
 
-                    </div>
+                    </>
                   )
                 })
                 // <Image src={formData?.image?.original} width={100} height={100} />

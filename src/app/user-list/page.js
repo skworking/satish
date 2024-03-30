@@ -42,7 +42,7 @@ const DisplayUser = () => {
   }, []);
 
   const handleConfirmDelete = async(id) => {
-    // Call your update function with formData
+   
    console.log("call",id);
    let response =await fetch("api/users/"+id,{
       method:"DELETE"
