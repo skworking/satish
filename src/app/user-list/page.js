@@ -41,7 +41,7 @@ const DisplayUser = () => {
     fetchData();
   }, []);
 
-  const handleConfirmDelete = async (id) => {
+  const handleConfirmDelete = async(id) => {
     // Call your update function with formData
    console.log("call",id);
    let response =await fetch("api/users/"+id,{
@@ -66,7 +66,7 @@ const DisplayUser = () => {
     setIsConfirmationOpen(true);
     handleConfirmDelete(id)
 
-    // console.log(id);
+    // // console.log(id);
     // let response =await fetch("http://localhost:3000/api/users/"+id,{
     //   method:"DELETE"
     // });
@@ -90,7 +90,7 @@ const DisplayUser = () => {
       setShow(!show)
   }
   const handleUpdate=async(data,id)=>{
-    let result=await fetch(`http://localhost:3000/api/users/${id}`,{
+    let result=await fetch(`api/users/${id}`,{
       method:"PUT",
       headers:{
         "Content-Type": "application/json"
@@ -110,7 +110,7 @@ const DisplayUser = () => {
   useEffect(()=>{
     setTimeout(()=>{
       setLoading(false)
-    },1000)
+    },5000)
   },[])
 
   const handleSearch=(e)=>{
@@ -119,7 +119,7 @@ const DisplayUser = () => {
     setSearch(search)
   }
   const searching=async()=>{
-    let result=await fetch(`http://localhost:3000/api/users/search?name=${search}`)
+    let result=await fetch(`api/users/search?name=${search}`)
     const data = await result.json();
     console.log(data);
     if(data.result.length > 0 )
@@ -271,7 +271,7 @@ const DisplayUser = () => {
           {isConfirmationOpen && (
                 <CustomConfirmation
                   message="Are you sure you want to delete the data?"
-                  onConfirm={handleConfirmUpdate}
+                  onConfirm={handleConfirmDelete}
                   onCancel={handleCancelUpdate}
                 />
             
