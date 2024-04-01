@@ -9,7 +9,8 @@ import Input from '../component/Reuseable/input';
 import CustomConfirmation from '../component/common/customConfirmation';
 import Button from '../component/Reuseable/button';
 import File from '../component/Reuseable/file';
-
+import { storage } from '@/component/Firebase/firebase';
+import { getStorage,ref,uploadBytes,getDownloadURL } from 'firebase/storage';
 const Editdetails = (props) => {
   const { data, oncancel, onUpdate } = props;
   console.log(data);
@@ -121,37 +122,51 @@ const Editdetails = (props) => {
 
   const handleImage = async (e,index,formData,setFormData) => {
     e.preventDefault();
-    const file = e.target.files[0];
+    const imageFile = e.target.files[0];
+    try{
+      
+      const storageRef = ref(storage, `images/${imageFile.name}`); 
+      const uploadTask =await uploadBytes(storageRef, imageFile);
+         // Get download URL of the uploaded file
+      const downloadURL = await getDownloadURL(uploadTask.ref);
+      console.log('Image uploaded successfully!', downloadURL);
 
-    try {
-      const data = new FormData()
-      data.append("file", file)
-      const res = await fetch('/api/upload', { method: 'PUT', body: data })
-      if (res.ok) {
-        console.log(res);
-        const updatedImages = [...formData.images];
-        updatedImages[index] = {
-          thumbnail: file.name,
-          original: file.name
-        };
-        setFormData(prevState => ({
-          ...prevState,
-          images:updatedImages
-          // images: {
-          //   ...prevState.images,
-          //   // id:randomid,
-          //   thumbnail: file.name,
-          //   original: file.name
-          // }
+    const updatedImages = [...formData.images];
+    updatedImages[index] = {
+      thumbnail: downloadURL,
+      original: downloadURL
+    };
 
-        }));
-      } else {
-        console.error("Failed to upload image. Status:", res);
-        // Handle error as needed
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    // Update the state with the updated form data
+    setFormData(prevState => ({
+      ...prevState,
+      images: updatedImages
+    }));
+  } catch (error) {
+    console.error('Error uploading image:', error);
+  }
+    // try {
+    //   const data = new FormData()
+    //   data.append("file", file)
+    //   const res = await fetch('/api/upload', { method: 'PUT', body: data })
+    //   if (res.ok) {
+    //     console.log(res);
+    //     const updatedImages = [...formData.images];
+    //     updatedImages[index] = {
+    //       thumbnail: file.name,
+    //       original: file.name
+    //     };
+    //     setFormData(prevState => ({
+    //       ...prevState,
+    //       images:updatedImages
+    //     }));
+    //   } else {
+    //     console.error("Failed to upload image. Status:", res);
+    //     // Handle error as needed
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    // }
   }
 
   console.log(formData);
@@ -665,9 +680,10 @@ const Editdetails = (props) => {
                       stylediv={styles.containerdivright}
                       inputstyle={styles.containerdivinput}
                       image={item[index]?.original}
-                      // errors={validationErrors?.images && validationErrors?.images[index]}
+                      errors={validationErrors?.images && validationErrors?.images[index]}
                     />
-                    <img src={item?.original ? `http://localhost:3000/Images/` + item?.original : ''} width={100} height={50} />
+                    <img src={item.original} width={100} height={50} />
+                    {/* <img src={item?.original ? `http://localhost:3000/Images/` + item?.original : ''} width={100} height={50} /> */}
                     <IoIosCloseCircle
                         className='cursor-pointer m-3 hover:fill-white'
                         onClick={() => { handleImgRemove(index) }} />
