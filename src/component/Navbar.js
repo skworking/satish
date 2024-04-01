@@ -17,11 +17,11 @@ const NavList=()=>{
                     Display USer
                 </Link>
             </li>
-            <li className='hover:bg-white p-2 rounded'>
+            {/* <li className='hover:bg-white p-2 rounded'>
                 <Link href={'/excel-list'} className='p-2'>
                     Exel-CSV
                 </Link>
-            </li>
+            </li> */}
             <li className='hover:bg-white p-2 rounded'>
                 <Link href={'/import-file'} className='p-2'>
                     Upload EXCEL
