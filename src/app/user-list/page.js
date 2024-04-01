@@ -20,7 +20,7 @@ const DisplayUser = () => {
   const [data,setData]=useState()
   const [search,setSearch]=useState('')
   const router = useRouter()
-
+const [deleteItemId, setDeleteItemId] = useState(null);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false)
 
   const fetchData = async () => {
@@ -41,10 +41,9 @@ const DisplayUser = () => {
     fetchData();
   }, []);
 
-  const handleConfirmDelete = async(id) => {
+  const handleConfirmDelete = async() => {
    
-   console.log("call",id);
-   let response =await fetch("api/users/"+id,{
+   let response =await fetch("api/users/"+deleteItemId,{
       method:"DELETE"
     });
     response=await response.json();
@@ -62,9 +61,9 @@ const DisplayUser = () => {
   };
 
   const handleDelete=async(id)=>{
-  
+    setDeleteItemId(id)
     setIsConfirmationOpen(true);
-    handleConfirmDelete(id)
+    // handleConfirmDelete(id)
 
     // // console.log(id);
     // let response =await fetch("http://localhost:3000/api/users/"+id,{
@@ -187,7 +186,7 @@ const DisplayUser = () => {
     saveAs(blob, "users.xlsx");
     toast.success('File download successfully')
   };
-
+  
   return (
     <div className='overflow-x-auto  items-center'>
     
@@ -207,9 +206,9 @@ const DisplayUser = () => {
         <thead className="bg-gray-200 text-gray-700 flex-1">
           <tr className=''>
             <th className="py-2 px-4">Name</th>
-            <th className="py-2 px-4">slug</th>
-            <th className="py-2 px-4">description</th>
-            <th className="py-2 px-4">image</th>
+            <th className="py-2 px-4">Slug</th>
+            <th className="py-2 px-4">Description</th>
+            <th className="py-2 px-4">Brand</th>
            
             <th className="py-2 px-4 ">Operation</th>
           </tr>
@@ -220,14 +219,14 @@ const DisplayUser = () => {
               <td className="py-2 px-4">{user.name}</td>
               <td className="py-2 px-4">{user.slug}</td>
               <td className="py-2 px-4">{user.description}</td>
-              <td className="py-2 px-4 flex justify-around">
+              <td className="py-2 px-4 flex justify-around">{user.brand}
 {/*                 
                 <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{user.hobby.name}</span>
                 <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{user.hobby.slug}</span> */}
                
                 {/* <Image src={user?.image?.original || 'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg'} alt={user?.name} className="inline-block " width='50' height={20} /> */}
                
-                <img src={user?.image?.original ? `http://localhost:3000/Images/`+user?.image?.original:''}  width={100} height={50} />
+                {/* <img src={user?.image?.original ? `http://localhost:3000/Images/`+user?.image?.original:''}  width={100} height={50} /> */}
               </td>
               {/* <td className="py-2 px-4 ">
                         
