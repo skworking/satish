@@ -118,7 +118,7 @@ const [deleteItemId, setDeleteItemId] = useState(null);
     setSearch(search)
   }
   const searching=async()=>{
-    let result=await fetch(`api/users/search?name=${search}`)
+    let result=await fetch(`api/search?name=${search}`)
     const data = await result.json();
     console.log(data);
     if(data.result.length > 0 )
