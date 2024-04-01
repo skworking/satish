@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import * as yup from 'yup'; 
+import { storage } from "@/component/Firebase/firebase";
+import { getStorage,ref,uploadBytes,getDownloadURL } from 'firebase/storage';
 export const options = [
     { value: 'chocolate', label: 'Chocolate' },
     { value: 'strawberry', label: 'Strawberry' },
@@ -221,36 +223,64 @@ export const handleAddVariationOption = (e,formData,setFormData) => {
 export const handleGalleryImage = async (e,setFormData) => {
   e.preventDefault();
   const files = e.target.files;
-  const newGalleryImages = [];
-
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    const data = new FormData();
-    data.append("file", file);
-
-    try {
-      const res = await fetch('/api/upload', { method: 'POST', body: data });
-      if (res.ok) {
-        newGalleryImages.push({
-          thumbnail: file.name,
-          original: file.name
-        });
-      } else {
-        console.error("Failed to upload image:", file.name);
-      }
-    } catch (error) {
-      console.error("Error uploading image:", error);
+  try{
+    const newGalleryImages = [];
+    for (let i = 0; i < files.length; i++) {
+      const imageFile = files[i];
+      const storageRef = ref(storage, `gallery/${imageFile.name}`);
+      
+      // Upload the current image file to Firebase Storage
+      const uploadTask = await uploadBytes(storageRef, imageFile);
+      
+      // Get the download URL of the uploaded image
+      const downloadURL = await getDownloadURL(uploadTask.ref);
+      console.log('Image uploaded successfully!', downloadURL);
+      
+      // Push the download URL of the uploaded image to the updatedImages array
+      newGalleryImages.push({
+        thumbnail: downloadURL,
+        original: downloadURL
+      });
     }
+    setFormData(prevState => ({
+      ...prevState,
+      gallery: [
+        ...prevState.gallery,
+        ...newGalleryImages
+      ]
+    }));
+  }catch(err){
+    console.error('Error uploading images:', err);
   }
 
+  // for (let i = 0; i < files.length; i++) {
+  //   const file = files[i];
+  //   const data = new FormData();
+  //   data.append("file", file);
+
+  //   try {
+  //     const res = await fetch('/api/upload', { method: 'POST', body: data });
+  //     if (res.ok) {
+  //       newGalleryImages.push({
+  //         thumbnail: file.name,
+  //         original: file.name
+  //       });
+  //     } else {
+  //       console.error("Failed to upload image:", file.name);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error uploading image:", error);
+  //   }
+  // }
+
   // After all uploads are complete, update the state with new gallery images
-  setFormData(prevState => ({
-    ...prevState,
-    gallery: [
-      ...prevState.gallery,
-      ...newGalleryImages
-    ]
-  }));
+  // setFormData(prevState => ({
+  //   ...prevState,
+  //   gallery: [
+  //     ...prevState.gallery,
+  //     ...newGalleryImages
+  //   ]
+  // }));
 };
 
 export const handleVariationOptionBoolean = (e, index,setFormData) => {
