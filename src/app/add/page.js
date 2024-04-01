@@ -10,6 +10,12 @@ import File from "../component/Reuseable/file";
 import Button from "../component/Reuseable/button";
 import validateForm from "../component/common/validation";
 
+import { storage } from "@/component/Firebase/firebase";
+// firebase connections
+import { getStorage,ref,uploadBytes,getDownloadURL } from 'firebase/storage';
+
+
+
 const AddUser = () => {
   const router = useRouter()
   const [selectedOptions, setSelectedOptions] = useState([]);
@@ -84,29 +90,53 @@ const AddUser = () => {
 
   const handleImage = async (e, index, formData, setFormData) => {
     e.preventDefault();
-    console.log(formData);
-    const file = e.target.files[0];
-    try {
-      const data = new FormData();
-      data.append("file", file);
-      const res = await fetch('/api/upload', { method: 'POST', body: data });
-      if (res.ok) {
-        console.log(res);
-        const updatedImages = [...formData.images];
-        updatedImages[index] = {
-          thumbnail: file.name,
-          original: file.name
-        };
-        setFormData(prevState => ({
-          ...prevState,
-          images: updatedImages
-        }));
-      } else {
-        console.error("Failed to upload image. Status:", res);
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    console.log("caa");
+    const imageFile = e.target.files[0];
+    try{
+      
+      const storageRef = ref(storage, `images/${imageFile.name}`); 
+      const uploadTask =await uploadBytes(storageRef, imageFile);
+         // Get download URL of the uploaded file
+      const downloadURL = await getDownloadURL(uploadTask.ref);
+      console.log('Image uploaded successfully!', downloadURL);
+
+    const updatedImages = [...formData.images];
+    updatedImages[index] = {
+      thumbnail: downloadURL,
+      original: downloadURL
+    };
+
+    // Update the state with the updated form data
+    setFormData(prevState => ({
+      ...prevState,
+      images: updatedImages
+    }));
+  } catch (error) {
+    console.error('Error uploading image:', error);
+  }
+
+// for local directory store images
+    // try {
+    //   const data = new FormData();
+    //   data.append("file", file);
+    //   const res = await fetch('/api/upload', { method: 'POST', body: data });
+    //   if (res.ok) {
+    //     console.log(res);
+    //     const updatedImages = [...formData.images];
+    //     updatedImages[index] = {
+    //       thumbnail: file.name,
+    //       original: file.name
+    //     };
+    //     setFormData(prevState => ({
+    //       ...prevState,
+    //       images: updatedImages
+    //     }));
+    //   } else {
+    //     console.error("Failed to upload image. Status:", res);
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    // }
   }
   
 
@@ -168,6 +198,7 @@ const AddUser = () => {
         <div>
         {Object.keys(formData.images).map((key, index) => {
            const image = formData.images[key];
+           console.log(image);
           return(
           <>
         <File

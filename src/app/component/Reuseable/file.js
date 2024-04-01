@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react'
 import { IoIosCloseCircle } from 'react-icons/io';
 
@@ -17,8 +18,9 @@ const File = (props) => {
         </input>
         <span className='text-red-400'>{errors}</span> 
         <div className="flex p-2 gap-2 ">            
-            <img src={image && `Images/`+image}  className={`${!image ?'hidden':''} `} width={100} height={100} />
-
+            {/* <img src={image && `Images/`+image}  className={`${!image ?'hidden':''} `} width={100} height={100} /> */}
+            <img src={image}  className={`${!image ?'hidden':''} `} width={100} height={100} />
+         
             {images > 0 &&
                gallery?.map((item,index) => {
                   console.log(item);
