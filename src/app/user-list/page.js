@@ -151,8 +151,8 @@ const [deleteItemId, setDeleteItemId] = useState(null);
       // Convert gallery array to string
       flattenedItem.gallery = JSON.stringify(flattenedItem.gallery).substring(0,32767);
     }
-    if(flattenedItem.image){
-      flattenedItem.image = JSON.stringify(flattenedItem.image).substring(0,32767)
+    if(flattenedItem.images){
+      flattenedItem.images = JSON.stringify(flattenedItem.images).substring(0,32767)
     }
     if(flattenedItem.tag){
       // flattenedItem['Tag Names'] = flattenedItem.tag.map(tag => tag.name).join(', ');
