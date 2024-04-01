@@ -8,10 +8,10 @@ export async function GET(request){
     try{
         const {searchParams}=new URL(request.url)
         const query = searchParams.get('name')||'';
-       
+        console.log(query);
         await mongoose.connect(con)
         if(query){
-
+            console.log(query);
             records = await User.find({ name: { $regex: new RegExp(query, 'i') } });
         }
       

@@ -128,7 +128,7 @@ const [deleteItemId, setDeleteItemId] = useState(null);
     setUsers(data.result);
   }
   const searchCall=()=>{
-   
+
    if(search.length >0){
     searching()
    }else{
