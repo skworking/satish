@@ -315,7 +315,19 @@ export const handleVariationOptionNumberChange = (e, index,setFormData) => {
     })
   }));
 };
-
+export const removeFields=(e,index,formData,setFormData)=>{
+  e.preventDefault();
+  let newImage;
+  if (formData.images.length > 0) {
+    newImage = formData.images.filter((_, i) => i !== index)
+  } else {
+    newImage = formData.images;
+  }
+  setFormData({
+    ...formData,
+    images: newImage
+  });
+}
 export const removeFormFields = (e, index,formData,setFormData) => {
   e.preventDefault();
   let newvariations;

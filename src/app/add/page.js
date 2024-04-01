@@ -4,7 +4,7 @@ import styles from "../page.module.css";
 import Image from "next/image";
 import { useRouter } from 'next/navigation'
 import Select from 'react-select'
-import { options, tags, attributetab, handleChange, handleNumberChange,handleSubmit, handleSelectOption, handleSelectAttribute, handleVariationChange, handleVariationNumberChange, handleVariationAttributeChange, handleAddVariation, handleAddVariationOption, handleImage, handleGalleryImage, handleVariationOptionBoolean, handleVariationOptionNumberChange, removeFormFields, handleRemoveVariationOption, handleImageRemove, handleVariationOptionChange } from "../component/common/comman";
+import { options, tags, attributetab, handleChange, handleNumberChange,handleSubmit, handleSelectOption, handleSelectAttribute, handleVariationChange, handleVariationNumberChange, handleVariationAttributeChange, handleAddVariation, handleAddVariationOption, handleImage, handleGalleryImage, handleVariationOptionBoolean, handleVariationOptionNumberChange, removeFormFields, handleRemoveVariationOption, handleImageRemove, handleVariationOptionChange, removeFields } from "../component/common/comman";
 import Input from "../component/Reuseable/input";
 import File from "../component/Reuseable/file";
 import Button from "../component/Reuseable/button";
@@ -169,7 +169,7 @@ const AddUser = () => {
         {Object.keys(formData.images).map((key, index) => {
            const image = formData.images[key];
           return(
-
+          <>
         <File
           key={index}
           text={`Image ${index + 1}`}
@@ -179,13 +179,19 @@ const AddUser = () => {
           stylediv={styles.containerdivright}
           inputstyle={styles.containerdivinput}
           image={image.original}
-          // errors={validationErrors?.images && validationErrors?.images[index]}
-        />
+          errors={validationErrors?.images && validationErrors?.images[index]}
+          />
+<Button onClick={(e) => removeFields(e, index, formData, setFormData)}
+                  styles={`w-1/6 p-2 ml-10 bg-gray-300 ${formData.images.length > 0 ? 'bg-red-500 opacity-100 text-bold' : ' opacity-50 bg-red-500 cursor-not-allowed'}`}
+                  disabled={formData.variations.length <= 1}
+                  text={"Remove"}
+                />
+          </>
         )})}
         <Button
           onClick={handleAddImage}
           styles={"w-1/6 ml-10 bg-gray-300"}
-          text="Add More"
+          text="Add Images"
         />
 
         </div>
