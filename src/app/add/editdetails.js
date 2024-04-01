@@ -651,7 +651,7 @@ const Editdetails = (props) => {
 
             /> */}
 
-            <div className="flex flex-col md:flex-row p-2 gap-2 ">
+            <div className="flex flex-col md:flex-row p-2 gap-2 flex-wrap">
               {formData.images.length> 0 &&
                 formData.images.map((item,index)=>{
                   return(
