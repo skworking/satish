@@ -26,7 +26,8 @@ const File = (props) => {
                   console.log(item);
                   return (
                     <div key={item._id} className="w-[100px]  flex flex-col justify-between text-center flex-wrap">
-                     <img src={item?.original ? `Images/`+item?.original:''}  width={100} height={100} />
+                     {/* <img src={item?.original ? `Images/`+item?.original:''}  width={100} height={100} /> */}
+                     <img src={item?.original }  width={100} height={100} />
                       {/* <Image src={item?.original} className="  object-contain" width={200} height={100} /> */}
                       <IoIosCloseCircle  
                             className='cursor-pointer m-3 hover:fill-gray-500'

@@ -3,7 +3,7 @@ import styles from "../page.module.css";
 import Image from 'next/image';
 import { IoIosCloseCircle } from 'react-icons/io';
 import Select from 'react-select'
-import { options, tags, attributetab, handleChange, handleNumberChange } from '../component/common/comman';
+import { options, tags, attributetab, handleChange, handleNumberChange, handleGalleryImage } from '../component/common/comman';
 import validateForm from '../component/common/validation';
 import Input from '../component/Reuseable/input';
 import CustomConfirmation from '../component/common/customConfirmation';
@@ -170,40 +170,40 @@ const Editdetails = (props) => {
   }
 
   console.log(formData);
-  const handleGalleryImage = async (e) => {
-    e.preventDefault();
-    const files = e.target.files;
-    const newGalleryImages = [];
+  // const handleGalleryImage = async (e) => {
+  //   e.preventDefault();
+  //   const files = e.target.files;
+  //   const newGalleryImages = [];
 
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const data = new FormData();
-      data.append("file", file);
+  //   for (let i = 0; i < files.length; i++) {
+  //     const file = files[i];
+  //     const data = new FormData();
+  //     data.append("file", file);
 
-      try {
-        const res = await fetch('/api/upload', { method: 'PUT', body: data });
-        if (res.ok) {
-          newGalleryImages.push({
-            thumbnail: file.name,
-            original: file.name
-          });
-        } else {
-          console.error("Failed to upload image:", file.name);
-        }
-      } catch (error) {
-        console.error("Error uploading image:", error);
-      }
-    }
+  //     try {
+  //       const res = await fetch('/api/upload', { method: 'PUT', body: data });
+  //       if (res.ok) {
+  //         newGalleryImages.push({
+  //           thumbnail: file.name,
+  //           original: file.name
+  //         });
+  //       } else {
+  //         console.error("Failed to upload image:", file.name);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error uploading image:", error);
+  //     }
+  //   }
 
-    // After all uploads are complete, update the state with new gallery images
-    setFormData(prevState => ({
-      ...prevState,
-      gallery: [
-        ...prevState.gallery,
-        ...newGalleryImages
-      ]
-    }));
-  };
+  //   // After all uploads are complete, update the state with new gallery images
+  //   setFormData(prevState => ({
+  //     ...prevState,
+  //     gallery: [
+  //       ...prevState.gallery,
+  //       ...newGalleryImages
+  //     ]
+  //   }));
+  // };
   const handleImageRemove = (index) => {
 
     let updated = [...formData.gallery]
@@ -617,7 +617,7 @@ const Editdetails = (props) => {
               type="file"
               accept=".png,.jpg"
               name="gallery"
-              onChange={handleGalleryImage}
+              onChange={(e)=>{handleGalleryImage(e,setFormData)}}
               multiple
             />
             <span className='text-red-600'>{validationErrors.gallery}</span>
@@ -627,8 +627,9 @@ const Editdetails = (props) => {
                   return (
                     <div key={item._id}
                       className="w-[100px]  flex flex-col justify-between text-center flex-wrap">
-                      <img src={item?.original ? `http://localhost:3000/Images/${item?.original}` : ''} alt='' width={100} height={100} />
+                      {/* <img src={item?.original ? `http://localhost:3000/Images/${item?.original}` : ''} alt='' width={100} height={100} /> */}
                       {/* <Image src={item?.original} className="  object-contain" width={200} height={100} /> */}
+                      <img src={item?.original} className="  object-contain" width={200} height={100} />
                       <IoIosCloseCircle
                         className='cursor-pointer m-3 hover:fill-white'
                         onClick={() => { handleImageRemove(index) }} />
