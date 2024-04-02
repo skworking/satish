@@ -4,6 +4,7 @@ import { FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 const Login = () => {
     const router = useRouter()
@@ -18,7 +19,10 @@ const Login = () => {
         console.log(response);
         if(response.data.success){
           sessionStorage.setItem("jwt",response.data.token)
-          router.push('/')
+          toast.success("login success")
+          router.push('/add')
+        }else{
+          toast.warning(response.data.message)
         }
         
       }
