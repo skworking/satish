@@ -4,11 +4,17 @@ import styles from "../page.module.css";
 import Image from "next/image";
 import { useRouter } from 'next/navigation'
 import Select from 'react-select'
-import { options, tags, attributetab, handleChange, handleNumberChange,handleSubmit, handleSelectOption, handleSelectAttribute, handleVariationChange, handleVariationNumberChange, handleVariationAttributeChange, handleAddVariation, handleAddVariationOption, handleImage, handleGalleryImage, handleVariationOptionBoolean, handleVariationOptionNumberChange, removeFormFields, handleRemoveVariationOption, handleImageRemove, handleVariationOptionChange } from "../component/common/comman";
+import { options, tags, attributetab, handleChange, handleNumberChange,handleSubmit, handleSelectOption, handleSelectAttribute, handleVariationChange, handleVariationNumberChange, handleVariationAttributeChange, handleAddVariation, handleAddVariationOption, handleImage, handleGalleryImage, handleVariationOptionBoolean, handleVariationOptionNumberChange, removeFormFields, handleRemoveVariationOption, handleImageRemove, handleVariationOptionChange, removeFields } from "../component/common/comman";
 import Input from "../component/Reuseable/input";
 import File from "../component/Reuseable/file";
 import Button from "../component/Reuseable/button";
 import validateForm from "../component/common/validation";
+
+import { storage } from "@/component/Firebase/firebase";
+// firebase connections
+import { getStorage,ref,uploadBytes,getDownloadURL } from 'firebase/storage';
+
+
 
 const AddUser = () => {
   const router = useRouter()
@@ -38,8 +44,7 @@ const AddUser = () => {
     name: '',
     slug: '',
     description: '',
-    image: {
-    },
+    images: [],
     gallery: [],
     tag: [],
     product_type: '',
@@ -56,13 +61,12 @@ const AddUser = () => {
 
   const handleformSubmit=async(e)=>{
     e.preventDefault()
-    console.log("cll");
     const errors=await validateForm(formData);
     if(errors){
       setValidationErrors(errors)
-      console.log("form validation failed",errors);
+      // console.log("form validation failed",errors);
     }else{
-      console.log('Form validation successful. Submitting form...');
+      // console.log('Form validation successful. Submitting form...');
       await handleSubmit(e,formData,router)
     }
   }
@@ -83,6 +87,68 @@ const AddUser = () => {
       ]
     }));
   }
+
+  const handleImage = async (e, index, formData, setFormData) => {
+    e.preventDefault();
+    console.log("caa");
+    const imageFile = e.target.files[0];
+    try{
+      
+      const storageRef = ref(storage, `images/${imageFile.name}`); 
+      const uploadTask =await uploadBytes(storageRef, imageFile);
+         // Get download URL of the uploaded file
+      const downloadURL = await getDownloadURL(uploadTask.ref);
+      console.log('Image uploaded successfully!', downloadURL);
+
+    const updatedImages = [...formData.images];
+    updatedImages[index] = {
+      thumbnail: downloadURL,
+      original: downloadURL
+    };
+
+    // Update the state with the updated form data
+    setFormData(prevState => ({
+      ...prevState,
+      images: updatedImages
+    }));
+  } catch (error) {
+    console.error('Error uploading image:', error);
+  }
+
+// for local directory store images
+    // try {
+    //   const data = new FormData();
+    //   data.append("file", file);
+    //   const res = await fetch('/api/upload', { method: 'POST', body: data });
+    //   if (res.ok) {
+    //     console.log(res);
+    //     const updatedImages = [...formData.images];
+    //     updatedImages[index] = {
+    //       thumbnail: file.name,
+    //       original: file.name
+    //     };
+    //     setFormData(prevState => ({
+    //       ...prevState,
+    //       images: updatedImages
+    //     }));
+    //   } else {
+    //     console.error("Failed to upload image. Status:", res);
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  }
+  
+
+  const handleAddImage = (e) => {
+    e.preventDefault()
+    setFormData(prevState => ({
+      ...prevState,
+      images: [...prevState.images,{ thumbnail: '', original: '' }],
+    }));
+  };
+
+  console.log(formData);
   const data={
     'variations[0].attribute.name': "Attribute name is required",
     
@@ -107,7 +173,6 @@ const AddUser = () => {
           <Input text={'brand'} onChange={(e) => handleChange(e, setFormData)} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} errors={validationErrors.brand}/>
           <Input text={'weight'} onChange={(e) => handleChange(e, setFormData)} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} errors={validationErrors.weight}/>
           
-          <File text={'Image'} onChange={(e) => handleImage(e, setFormData)} typeinput="file" option={false} stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} image={formData.image.original} errors={validationErrors?.Image} />
 
           <Input text={'product_type'} onChange={(e) => handleChange(e, setFormData)} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} errors={validationErrors.product_type} />
           <Input text={'min_price'} onChange={(e) => handleNumberChange(e, setFormData)} typeinput="string" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} value={formData.min_price} errors={validationErrors.min_price} />
@@ -127,6 +192,38 @@ const AddUser = () => {
             /> 
             <span className="text-red-500">{validationErrors.tag}</span>
           </div>
+
+          {/* <File text={'Image'} onChange={(e) => handleImage(e, setFormData)} typeinput="file" option={false} stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} image={formData.image.original} errors={validationErrors?.Image} /> */}
+        </div>
+        <div>
+        {Object.keys(formData.images).map((key, index) => {
+           const image = formData.images[key];
+           console.log(image);
+          return(
+          <>
+        <File
+          key={index}
+          text={`Image ${index + 1}`}
+          onChange={(e) => handleImage(e, index,formData,setFormData)}
+          typeinput="file"
+          option={false}
+          stylediv={styles.containerdivright}
+          inputstyle={styles.containerdivinput}
+          image={image.original}
+          errors={validationErrors?.images && validationErrors?.images[index]}
+          />
+<Button onClick={(e) => removeFields(e, index, formData, setFormData)}
+                  styles={`w-1/6 p-2 ml-10 bg-gray-300 ${formData.images.length > 0 ? 'bg-red-500 opacity-100 text-bold' : ' opacity-50 bg-red-500 cursor-not-allowed'}`}
+                  disabled={formData.variations.length <= 1}
+                  text={"Remove"}
+                />
+          </>
+        )})}
+        <Button
+          onClick={handleAddImage}
+          styles={"w-1/6 ml-10 bg-gray-300"}
+          text="Add Images"
+        />
 
         </div>
         

@@ -54,7 +54,7 @@ const ImportFile = () => {
                 // })
                 parsedData = jsonData?.map(item => {
 
-                    item.image = JSON.parse(item?.image);
+                    item.images = JSON.parse(item?.images);
 
                     if (item.gallery) {
                         item.gallery = JSON.parse(item.gallery);
@@ -87,7 +87,7 @@ const ImportFile = () => {
 
     const handleDelete = async (id) => {
 
-        let response = await fetch("http://localhost:3000/api/users/" + id, {
+        let response = await fetch("api/users/" + id, {
             method: "DELETE"
         })
         response = await response.json();
@@ -113,7 +113,7 @@ const ImportFile = () => {
     }
 
     const handleUpdate = async (data, id) => {
-        let result = await fetch(`http://localhost:3000/api/users/${id}`, {
+        let result = await fetch(`api/users/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -150,9 +150,9 @@ const ImportFile = () => {
                 <thead className="bg-gray-200 text-gray-700 flex-1">
                     <tr className=''>
                         <th className="py-2 px-4">Name</th>
-                        <th className="py-2 px-4">slug</th>
-                        <th className="py-2 px-4">description</th>
-                        <th className="py-2 px-4">image</th>
+                        <th className="py-2 px-4">Slug</th>
+                        <th className="py-2 px-4">Description</th>
+                        <th className="py-2 px-4">Brand</th>
 
                         <th className="py-2 px-4 ">Operation</th>
                     </tr>
@@ -164,14 +164,14 @@ const ImportFile = () => {
                             <td className="py-2 px-4">{user.name}</td>
                             <td className="py-2 px-4">{user.slug}</td>
                             <td className="py-2 px-4">{user.description}</td>
-                            <td className="py-2 px-4 flex justify-around">
+                            <td className="py-2 px-4 flex justify-around">{user.brand}
                                 {/*                 
                 <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{user.hobby.name}</span>
                 <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{user.hobby.slug}</span> */}
 
                                 {/* <Image src={user?.image?.original || 'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg'} alt={user?.name} className="inline-block " width='50' height={20} /> */}
 
-                                <img src={user?.image?.original ? `http://localhost:3000/Images/` + user?.image?.original : ''} alt='' width={100} height={50} />
+                                {/* <img src={user?.image?.original ? `http://localhost:3000/Images/` + user?.image?.original : ''} alt='' width={100} height={50} /> */}
                             </td>
                             {/* <td className="py-2 px-4 ">
                         

@@ -60,7 +60,7 @@ const formSchema = yup.object().shape({
     const numericValue = Number(value);
     return !isNaN(numericValue) && numericValue < 10000 && numericValue > 100; // Check if numeric value is greater than 100
   }),
-  gallery: yup.array().min(1, 'Gallery should contain at least one image'),
+  // gallery: yup.array().min(1, 'Gallery should contain at least one image'),
 
 
   // .test('is-required', 'Image is required', value => {
