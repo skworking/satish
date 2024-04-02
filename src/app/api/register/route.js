@@ -2,16 +2,18 @@ import { con } from "@/lib/db";
 import { Register } from "@/lib/model/register"
 
 import mongoose from "mongoose";
+import bcrypt from 'bcrypt';
+
 import { NextRequest, NextResponse } from "next/server";
 
 
 export async function POST(req, res) {
+
     const payload=await req.json();
  
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Method Not Allowed' });
     }
-    const { email, password } = req.body;
     try {
         await mongoose.connect(con)
         // Check if user already exists
@@ -20,8 +22,9 @@ export async function POST(req, res) {
             // return res.status(400).json({ message: 'Email already registered' });
             return NextResponse.json({ message: 'Email already registered',success:false });
         }
-        const newUser = new Register(payload);
-        console.log(newUser);
+        const hashedPassword = await bcrypt.hash(payload.password,10); // 10 is the salt rounds
+        const newUser = new Register({email:payload.email,password:hashedPassword});
+       
         await newUser.save();
         // return res.status(201).json({ message: 'User registered successfully' });
         return NextResponse.json({ message: 'User registered successfully',success:true });

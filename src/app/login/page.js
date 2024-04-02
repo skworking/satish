@@ -3,6 +3,7 @@ import React from 'react'
 import { FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import axios from 'axios'
 
 const Login = () => {
     const router = useRouter()
@@ -12,18 +13,14 @@ const Login = () => {
         const formData = new FormData(event.currentTarget)
         const email = formData.get('email')
         const password = formData.get('password')
-     
-        const response = await fetch('/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password }),
-        })
-     
-        if (response.ok) {
-          router.push('/profile')
-        } else {
-          // Handle errors
+        console.log(email,password);
+        const response = await axios.post('/api/login', { email, password });
+        console.log(response);
+        if(response.data.success){
+          sessionStorage.setItem("jwt",response.data.token)
+          router.push('/')
         }
+        
       }
   return (
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">

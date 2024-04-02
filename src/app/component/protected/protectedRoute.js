@@ -6,7 +6,7 @@ import React, { useEffect } from 'react'
 const ProtectedRoute = ({children}) => {
     const router=useRouter();
     useEffect(()=>{
-    const token = localStorage.getItem('jwt');
+    const token = sessionStorage.getItem('jwt');
     if (!token) {
         // redirect('/login')
       router.push('/login');
