@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { BsBrilliance } from "react-icons/bs";
 
 const NavList = () => {
-    const [isAuth, setAuth] = useState(localStorage.getItem('jwt') | null);
+    const [isAuth, setAuth] = useState(typeof window !== 'undefined' ? localStorage.getItem('key') : null);
     return (
         <>
             <ul className='flex gap-2' >

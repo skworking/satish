@@ -1,14 +1,29 @@
 'use client'
 import React,{useState} from 'react'
 import Link from 'next/link'
+import axios from 'axios'
+import {  toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 const Register = () => {
-    const handleSubmit = (e) => {
+    const router = useRouter()
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        const data ={
-            email:email,
-            password:password
-        }
-        console.log(data);
+        try {
+            const data ={
+                email:email,
+                password:password
+            }
+            const response = await axios.post('/api/register',data);
+            if(response.data.success){
+                toast.success(response.data.message)
+                router.push('/login',{scroll:false})
+            }else{
+                toast.warning(`${response.data.message}`)
+            }
+           
+          } catch (error) {
+            console.error('Registration failed:', error); // Handle error
+          }
     }
     const [email,setEmail]=useState('')
     const [password, setPassword] = useState('');
@@ -28,7 +43,7 @@ const Register = () => {
       };
     return (
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form className="space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
+            <form className="space-y-6" action="#" method="POST" onSubmit={(e)=>{handleSubmit(e)}}>
                 <div>
                     <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                         Email address
