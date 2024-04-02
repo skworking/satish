@@ -4,6 +4,8 @@ import Navbar from "@/component/Navbar";
 import Head from "next/head";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ProtectedRoute from "./component/protected/protectedRoute";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +24,10 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <ToastContainer />
         <Navbar />
+        <ProtectedRoute>
+
         {children}
+        </ProtectedRoute>
       </body>
     </html>
   );
