@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import ProtectedRoute from "./component/protected/protectedRoute";
 import { useEffect,useState } from "react";
 import { useRouter } from 'next/navigation'
+import Login from "./login/page";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,11 +19,11 @@ const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const [isAuth, setIsAuth] = useState(false);
+  console.log("change",children);
+  const [isAuth, setIsAuth] = useState(sessionStorage.getItem('jwt'));
   const router = useRouter()
+
   useEffect(() => {
-      const token = sessionStorage.getItem('jwt');
-      setIsAuth(!!token);
       const handleStorageChange = () => {
           const updatedToken = sessionStorage.getItem('jwt');
           setIsAuth(!!updatedToken);
@@ -31,7 +33,12 @@ export default function RootLayout({ children }) {
       return () => {
           window.removeEventListener('storage', handleStorageChange);
       };
-  }, [isAuth]);
+  }, []);
+
+
+  const handleLoginSuccess = () => {
+    setIsAuth(true);
+};
   const handleLogout = () => {
     setIsAuth(false); // Update the authentication status when the user logs out
     router.push('/login')
@@ -46,9 +53,9 @@ export default function RootLayout({ children }) {
         <ToastContainer />
         <Navbar isAuth={isAuth} onlogout={handleLogout}/>
         <ProtectedRoute>
-
-        {children}
+         {isAuth && children}
         </ProtectedRoute>
+        {!isAuth && <Login onLoginSuccess={handleLoginSuccess} />}
       </body>
     </html>
   );

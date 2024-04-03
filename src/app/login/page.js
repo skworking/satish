@@ -1,13 +1,21 @@
 'use client'
-import React from 'react'
+import React,{useEffect} from 'react'
 import { FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
-const Login = () => {
+const Login = ({onLoginSuccess}) => {
     const router = useRouter()
+    useEffect(() => {
+      // Check if token exists in sessionStorage
+      const token = sessionStorage.getItem('jwt');
+      if (token) {
+          // Redirect authenticated users to another page
+          router.push('/'); // Change '/dashboard' to the desired page
+      }
+  }, []);
     const handleSubmit=async(event)=> {
         event.preventDefault()
      
@@ -21,6 +29,8 @@ const Login = () => {
           sessionStorage.setItem("jwt",response.data.token)
           toast.success("login success")
           router.push('/add')
+          onLoginSuccess(); 
+  
         }else{
           toast.warning(response.data.message)
         }
