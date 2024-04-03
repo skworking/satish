@@ -20,7 +20,7 @@ const metadata = {
 
 export default function RootLayout({ children }) {
   console.log("change",children);
-  const [isAuth, setIsAuth] = useState(sessionStorage.getItem('jwt'));
+  const [isAuth, setIsAuth] = useState(typeof window !== 'undefined' && sessionStorage.getItem('jwt'));
   const router = useRouter()
 
   useEffect(() => {
