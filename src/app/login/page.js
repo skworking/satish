@@ -10,7 +10,7 @@ const Login = ({onLoginSuccess}) => {
     const router = useRouter()
     useEffect(() => {
       // Check if token exists in sessionStorage
-      const token = sessionStorage.getItem('jwt');
+      const token = typeof window !== 'undefined' && sessionStorage.getItem('jwt')
       if (token) {
           // Redirect authenticated users to another page
           router.push('/'); // Change '/dashboard' to the desired page
@@ -28,7 +28,6 @@ const Login = ({onLoginSuccess}) => {
         if(response.data.success){
           sessionStorage.setItem("jwt",response.data.token)
           toast.success("login success")
-          router.push('/add')
           onLoginSuccess(); 
   
         }else{
