@@ -9,9 +9,25 @@ import ProtectedRoute from "./component/protected/protectedRoute";
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
-import Login from "./login/page";
-import Register from "./register/page";
+import dynamic from 'next/dynamic'
+// import Login from "./login/page";
+// import Register from "./register/page";
 
+// code optamization is lazy-loading
+const WithCustomLoading = dynamic(
+  () => import('./component/Reuseable/loading'),
+  {
+    loading: () => <p >Loading...</p>,
+  }
+)
+
+const DynamicLogin = dynamic(() => import('./login/page'), {
+  loading: () => <WithCustomLoading />,
+});
+
+const DynamicRegister = dynamic(() => import('./register/page'), {
+  loading: () => <WithCustomLoading />,
+});
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -64,9 +80,10 @@ export default function RootLayout({ children }) {
           {isAuth && children}
 
         </ProtectedRoute>
-        {!isAuth && pathname !== '/register' && <Login onLoginSuccess={handleLoginSuccess} />}
-        {!isAuth && pathname !== '/login' && <Register />}
-
+        {!isAuth && pathname !== '/register' && <DynamicLogin onLoginSuccess={handleLoginSuccess} />}
+        {!isAuth && pathname !== '/login' && <DynamicRegister />}
+    
+   
       </body>
     </html>
   );
