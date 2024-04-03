@@ -42,7 +42,7 @@ const Register = () => {
         setPasswordsMatch(e.target.value === password);
       };
     return (
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-2">
             <form className="space-y-6" action="#" method="POST" onSubmit={(e)=>{handleSubmit(e)}}>
                 <div>
                     <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
