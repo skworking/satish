@@ -56,9 +56,13 @@ const Navbar = ({ isAuth, onlogout }) => {
     }
     return (
         <div className='flex w-full sm:justify-around justify-between h-[50px] py-2 items-center bg-slate-500'  >
+            {!isAuth ?
+                <BsBrilliance className='fill-red-200 w-[60px] h-[40px]' />
+            :
             <Link href='/'>
                 <BsBrilliance className='fill-red-200 w-[60px] h-[40px]' />
             </Link>
+            }
             <NavList isAuth={isAuth} onlogout={onlogout} view={view} setView={handlechange} />
             {view &&
                 <div className='absolute h-full  list-inside bg-gray-300 w-full top-12 flex flex-col sm:hidden' onClick={handlechange}>
