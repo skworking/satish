@@ -5,7 +5,7 @@ import { BsBrilliance, BsJustify, BsXSquare } from 'react-icons/bs';
 
 const NavList = ({ isAuth, onlogout, setView, view }) => {
     const handleLogout = () => {
-        sessionStorage.removeItem('jwt');
+        
         onlogout()
     };
     // const handlechange = (e) => {
@@ -17,7 +17,7 @@ const NavList = ({ isAuth, onlogout, setView, view }) => {
         <ul className='flex gap-2  '>
             {isAuth ? (
                 <>
-                    <React.Fragment className='sm:flex hidden '>
+                    <div className='sm:flex hidden '>
                         <li className='hover:bg-white p-2 rounded'>
                             <Link href='/add'>Add User</Link>
                         </li>
@@ -30,7 +30,7 @@ const NavList = ({ isAuth, onlogout, setView, view }) => {
                         <li className='hover:bg-white p-2 rounded' onClick={handleLogout}>
                             <Link href='/login' className='p-2'>Logout</Link>
                         </li>
-                    </React.Fragment>
+                    </div>
                     {view ?
                         <BsXSquare className='flex sm:hidden w-[60px] h-[40px] cursor-pointer' onClick={setView} />
                         :

@@ -42,6 +42,7 @@ export default function RootLayout({ children }) {
     setIsAuth(true);
   };
   const handleLogout = () => {
+    sessionStorage.removeItem('jwt');
     setIsAuth(false); // Update the authentication status when the user logs out
     router.push('/login')
   };
