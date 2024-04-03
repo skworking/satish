@@ -137,7 +137,6 @@ const ImportFile = () => {
             <h1 className='text-2xl text-center'>Read Excel: {filename}</h1>
             <div className='w-full  flex bg-gray-200  p-5 mt-5' >
                 <div className='flex justify-start'>
-
                     <h1 className='text-xl  '>Upload File</h1>
                     <FaFileAlt className='w-fit text-3xl cursor-pointer hover:fill-slate-400' onClick={() => document.getElementById('filePicker').click()} />
                 </div>
@@ -146,8 +145,9 @@ const ImportFile = () => {
         <button className='bg-gray-300 p-2 rounded hover:bg-gray-400'>Save</button>
         } */}
             </div>
-            <table className="w-full bg-white shadow-md rounded-lg ">
-                <thead className="bg-gray-200 text-gray-700 flex-1">
+           
+            <table className="w-full bg-white shadow-md rounded-lg overflow-scroll inline-block sm:inline-table ">
+                <thead className="bg-gray-200 text-gray-700 flex-1  ">
                     <tr className=''>
                         <th className="py-2 px-4">Name</th>
                         <th className="py-2 px-4">Slug</th>
@@ -164,15 +164,7 @@ const ImportFile = () => {
                             <td className="py-2 px-4">{user.name}</td>
                             <td className="py-2 px-4">{user.slug}</td>
                             <td className="py-2 px-4">{user.description}</td>
-                            <td className="py-2 px-4 flex justify-around">{user.brand}
-                                {/*                 
-                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{user.hobby.name}</span>
-                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{user.hobby.slug}</span> */}
-
-                                {/* <Image src={user?.image?.original || 'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg'} alt={user?.name} className="inline-block " width='50' height={20} /> */}
-
-                                {/* <img src={user?.image?.original ? `http://localhost:3000/Images/` + user?.image?.original : ''} alt='' width={100} height={50} /> */}
-                            </td>
+                            <td className="py-2 px-4 flex justify-around">{user.brand} </td>
                             {/* <td className="py-2 px-4 ">
                         
                 {user?.gallery.length >= 0 &&
@@ -196,6 +188,7 @@ const ImportFile = () => {
                     }
                 </tbody>
             </table>
+           
             {show &&
 
                 <div className='absolute top-0 h-auto w-full p-20 bg-gray-400 opacity-80 text-center'>
