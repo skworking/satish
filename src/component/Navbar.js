@@ -28,7 +28,7 @@ const NavList = ({ isAuth, onlogout, setView, view }) => {
                             <Link href='/import-file'>Upload EXCEL</Link>
                         </li>
                         <li className='hover:bg-white p-2 rounded' onClick={handleLogout}>
-                            <Link href='/login' className='p-2'>Logout</Link>
+                            <Link href='/role-login' className='p-2'>Logout</Link>
                         </li>
                     </div>
                     {view ?
@@ -40,7 +40,7 @@ const NavList = ({ isAuth, onlogout, setView, view }) => {
                 </>
             ) : (
                 <li className='hover:bg-white p-2 rounded'>
-                    <Link href='/login' className='p-2'>Login</Link>
+                    <Link href='/role-login' className='p-2'>Login</Link>
                 </li>
             )}
         </ul>

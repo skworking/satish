@@ -1,3 +1,4 @@
+'use client'
 import Link from 'next/link';
 import React, { useState } from 'react'
 import { auth, database } from '@/component/Firebase/firebase';
@@ -62,6 +63,7 @@ const RoleRegister = () => {
     }
     return (
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-2">
+            <h1>Register User</h1>
             <form className="space-y-6" action="#" method="POST" onSubmit={(e) => { handleRegister(e) }}>
                 <div className="mt-2">
                     <select

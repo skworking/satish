@@ -21,7 +21,7 @@ const WithCustomLoading = dynamic(
   }
 )
 
-const DynamicLogin = dynamic(() => import('./login/page'), {
+const DynamicLogin = dynamic(() => import('./role-login/page'), {
   loading: () => <WithCustomLoading />,
 });
 
@@ -52,7 +52,6 @@ export default function RootLayout({ children }) {
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
-
 
   const handleLoginSuccess = () => {
     setIsAuth(true);
