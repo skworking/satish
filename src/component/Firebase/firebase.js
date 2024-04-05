@@ -1,6 +1,8 @@
 import * as firebase from 'firebase/app';
-import { getStorage,ref,uploadBytes,getDownloadURL } from 'firebase/storage';
+import { getStorage } from 'firebase/storage';
 import 'firebase/storage';
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCfpw2KE7-86AD3UJE6Uz_uk5_dD9sDmbw",
@@ -12,6 +14,18 @@ const firebaseConfig = {
   };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+
+//  firebase.initializeApp(firebaseConfig);
+ const app=initializeApp(firebaseConfig)
 // Export Firebase storage instance
-export const storage = getStorage(firebase.app);
+
+// for auth store create
+const auth = getAuth(app)
+
+// const firestore = firebase.firestore();
+
+// for image store
+// const storage = getStorage(firebase.app);
+const storage = getStorage(app);
+
+export {storage,auth};
