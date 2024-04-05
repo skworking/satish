@@ -21,11 +21,11 @@ const WithCustomLoading = dynamic(
   }
 )
 
-const DynamicLogin = dynamic(() => import('./login/page'), {
+const DynamicLogin = dynamic(() => import('./role-login/page'), {
   loading: () => <WithCustomLoading />,
 });
 
-const DynamicRegister = dynamic(() => import('./register/page'), {
+const DynamicRegister = dynamic(() => import('./role-register/page'), {
   loading: () => <WithCustomLoading />,
 });
 
@@ -37,7 +37,7 @@ const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  console.log("change", children);
+ 
   const [isAuth, setIsAuth] = useState(typeof window !== 'undefined' && sessionStorage.getItem('jwt'));
   const router = useRouter()
 
@@ -52,7 +52,6 @@ export default function RootLayout({ children }) {
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
-
 
   const handleLoginSuccess = () => {
     setIsAuth(true);
