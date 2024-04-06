@@ -259,7 +259,7 @@ const [deleteItemId, setDeleteItemId] = useState(null);
      </>
     }
           {show && 
-          <div className='absolute top-0 h-auto w-full p-20 bg-gray-400 opacity-80 text-center'>
+          <div className='absolute top-[50px] h-screen  overflow-auto md:w-[88%]  w-[100%] bg-gray-400 opacity-80 text-center'>
             <IoCloseCircleOutline className=' float-right  hover:bg-white bg-gray-400 w-[30px] h-[30px] text-center  p-1 rounded-full cursor-pointer' onClick={()=>{setShow(!show)}} />
               
             <Editdetails data={data} oncancel={handleCancel} onUpdate={handleUpdate}/>

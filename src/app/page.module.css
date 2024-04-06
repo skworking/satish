@@ -60,7 +60,7 @@
 
 @media(max-width:768px){
   .containerdivinput{
-    width:100% !important;    
+    width:300px;    
     display: flex;
     font-size: smaller;
   }
@@ -71,6 +71,12 @@
     padding: 10px;
     margin: auto;
     
+  }
+  .containerdivleft{
+   width: 100%; 
+  }
+  .containerdivright{
+    width: 100%;
   }
 }
 

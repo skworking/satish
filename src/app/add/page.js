@@ -180,7 +180,7 @@ const AddUser = () => {
 
           <File text={'gallery'} onChange={(e) => handleGalleryImage(e, setFormData)} typeinput="file" option={true} stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} images={formData.gallery.length} gallery={formData.gallery} onClick={(index) => handleImageRemove(index, formData, setFormData)} errors={validationErrors.gallery} />
 
-          <div className="m-auto" stylediv={styles.containerdivright }  inputstyle={styles.containerdivinput}>
+          <div className="sm:m-auto" stylediv={styles.containerdivright }  inputstyle={styles.containerdivinput}>
 
             <Select
               isMulti={true}
@@ -188,7 +188,7 @@ const AddUser = () => {
               onChange={handleSelect}
               placeholder="Selected Tags"
               options={options}
-             className="md:grid   lg:grid-cols-1 grid-cols-1 gap-4 flex  flex-col w-[400px]  items-center"
+             className="md:grid   lg:grid-cols-1 grid-cols-1 gap-4 flex  flex-col w-[200px]  items-center"
             />
             <span className="text-red-500">{validationErrors.tag}</span>
           </div>

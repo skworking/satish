@@ -99,7 +99,7 @@ export default function RootLayout({ children }) {
                   </li>
                 </div>
               </div>
-              <div className="overflow-auto h-screen w-full ">
+              <div className="sm:overflow-auto sm:h-screen  sm:w-full ">
 
                 {!isAuth && children}
               </div>
