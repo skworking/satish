@@ -14,11 +14,14 @@ const NavList = ({ isAuth, onlogout, setView, view }) => {
     //     setView(!view)
     // }
     return (
-        <ul className='flex gap-2  '>
-            {isAuth ? (
+        <ul className='flex  gap-1  '>
+            {!isAuth ? (
                 <>
                     <div className='sm:flex hidden '>
-                        <li className='hover:bg-white p-2 rounded'>
+                        <div>
+                        search 
+                        </div>
+                        {/* <li className='hover:bg-white p-2 rounded'>
                             <Link href='/add'>Add User</Link>
                         </li>
                         <li className='hover:bg-white p-2 rounded'>
@@ -29,7 +32,7 @@ const NavList = ({ isAuth, onlogout, setView, view }) => {
                         </li>
                         <li className='hover:bg-white p-2 rounded' onClick={handleLogout}>
                             <Link href='/role-login' className='p-2'>Logout</Link>
-                        </li>
+                        </li> */}
                     </div>
                     {view ?
                         <BsXSquare className='flex sm:hidden w-[60px] h-[40px] cursor-pointer' onClick={setView} />
@@ -55,7 +58,7 @@ const Navbar = ({ isAuth, onlogout }) => {
         setView(!view)
     }
     return (
-        <div className='flex w-full sm:justify-around justify-between h-[50px] py-2 items-center bg-slate-500'  >
+        <div className='flex w-full sm:justify-around justify-between h-[50px] py-2 items-center bg-sky-200'  >
             {!isAuth ?
                 <BsBrilliance className='fill-red-200 w-[60px] h-[40px]' />
             :

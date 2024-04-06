@@ -62,8 +62,9 @@ const RoleRegister = () => {
 
     }
     return (
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-2">
-            <h1>Register User</h1>
+        <div className='w-full h-screen flex items-center'>
+        <div className="m-10 sm:mx-auto sm:w-full sm:max-w-sm p-10 bg-slate-300 rounded">
+            <h1 className='text-blue-800 '>Register User</h1>
             <form className="space-y-6" action="#" method="POST" onSubmit={(e) => { handleRegister(e) }}>
                 <div className="mt-2">
                     <select
@@ -71,7 +72,7 @@ const RoleRegister = () => {
                         name="role"
                         value={role}
                         onChange={handleRoleChange}
-                        className="block w-full rounded-md border-2 py-1.5 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-2 py-1.5 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset  sm:text-sm sm:leading-6"
                     >
                         <option value="">Select Role</option>
                         <option value="user">User</option>
@@ -90,8 +91,7 @@ const RoleRegister = () => {
                             type="email"
                             onChange={handlechange}
                             autoComplete="email"
-                         
-                            className="block w-full rounded-md border-0 py-1.5 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="block w-full rounded-md border-0 py-1.5 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  sm:text-sm sm:leading-6"
                         />
                     </div>
                 </div>
@@ -115,6 +115,7 @@ const RoleRegister = () => {
                     </Link>
                 </div>
             </form>
+        </div>
         </div>
     )
 }

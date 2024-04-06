@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import dynamic from 'next/dynamic'
+import Link from "next/link";
 // import Login from "./login/page";
 // import Register from "./register/page";
 
@@ -37,7 +38,7 @@ const metadata = {
 };
 
 export default function RootLayout({ children }) {
- 
+
   const [isAuth, setIsAuth] = useState(typeof window !== 'undefined' && sessionStorage.getItem('jwt'));
   const router = useRouter()
 
@@ -74,15 +75,47 @@ export default function RootLayout({ children }) {
       </Head>
       <body className={inter.className}>
         <ToastContainer />
-        <Navbar isAuth={isAuth} onlogout={handleLogout} />
-        <ProtectedRoute>
-          {isAuth && children}
+        {!isAuth &&
+          <div>
+            <Navbar isAuth={isAuth} onlogout={handleLogout} />
 
-        </ProtectedRoute>
-        {!isAuth && pathname !== '/register' && <DynamicLogin onLoginSuccess={handleLoginSuccess} />}
-        {!isAuth && pathname !== '/login' && <DynamicRegister />}
-    
-   
+            <div className="flex">
+
+
+
+              <div className="bg-gray-600  h-screen w-[15%] md:flex hidden">
+                <div className='md:flex hidden flex-col w-full p-2'>
+                  <li className='hover:bg-white p-2 rounded'>
+                    <Link href='/add'>Add User</Link>
+                  </li>
+                  <li className='hover:bg-white p-2 rounded'>
+                    <Link href='/user-list'>Display User</Link>
+                  </li>
+                  <li className='hover:bg-white p-2 rounded'>
+                    <Link href='/import-file'>Upload EXCEL</Link>
+                  </li>
+                  <li className='hover:bg-white p-2 rounded' onClick={handleLogout}>
+                    <Link href='/role-login' className='p-2'>Logout</Link>
+                  </li>
+                </div>
+              </div>
+              <div className="overflow-auto h-screen w-full ">
+
+                {!isAuth && children}
+              </div>
+            </div>
+          </div>
+        }
+        <div className="w-full">
+          {/* <ProtectedRoute> */}
+
+          {/* </ProtectedRoute> */}
+        </div>
+
+        {/* {!isAuth && pathname !== '/register' && <DynamicLogin onLoginSuccess={handleLoginSuccess} />}
+        {!isAuth && pathname !== '/login' && <DynamicRegister />} */}
+
+
       </body>
     </html>
   );

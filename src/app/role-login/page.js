@@ -26,8 +26,9 @@ const Login = () => {
             await signInWithEmailAndPassword(auth, email, 'password');
              // Check if user's role and email exist in the database
              const userRef = ref(database, 'users');
-    
-            
+             const queryRef = orderByChild(usersRef, 'email').equalTo(email);
+             const userSnapshot = await get(queryRef);
+             console.log(userSnapshot);
         
              
             //  if (userSnapshot.exists()) {
@@ -52,8 +53,9 @@ const Login = () => {
         }
     }
   return (
-    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-2">
-        <h1>Login User</h1>
+    <div className='w-full h-screen flex items-center'>
+    <div className="m-10 sm:mx-auto sm:w-full sm:max-w-sm p-10 bg-slate-300 rounded">
+        <h1 className='text-blue-800 '>Login User</h1>
     <form className="space-y-6" action="#" method="POST" onSubmit={(e) => { handleLogin(e) }}>
         <div className="mt-2">
             <select
@@ -61,7 +63,7 @@ const Login = () => {
                 name="role"
                 value={role}
                 onChange={handleRoleChange}
-                className="block w-full rounded-md border-2 py-1.5 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-2 py-1.5 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset  sm:text-sm sm:leading-6"
             >
                 <option value="">Select Role</option>
                 <option value="user">User</option>
@@ -81,7 +83,7 @@ const Login = () => {
                     onChange={handlechange}
                     autoComplete="email"
                  
-                    className="block w-full rounded-md border-0 py-1.5 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  sm:text-sm sm:leading-6"
                 />
             </div>
         </div>
@@ -105,6 +107,7 @@ const Login = () => {
                   </Link>
                 </div>
     </form>
+</div>
 </div>
   )
 }
