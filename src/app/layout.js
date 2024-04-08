@@ -83,7 +83,7 @@ export default function RootLayout({ children }) {
 
 
 
-              <div className="bg-gray-600  h-screen w-[15%] md:flex hidden">
+              <div className="bg-gray-600  h-screen w-[15%] lg:flex hidden">
                 <div className='md:flex hidden flex-col w-full p-2'>
                   <li className='hover:bg-white p-2 rounded flex'>
                     <Link href='/add' className="w-full">Add User</Link>

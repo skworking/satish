@@ -69,7 +69,7 @@ const Navbar = ({ isAuth, onlogout }) => {
             }
             <NavList isAuth={isAuth} onlogout={onlogout} view={view} setView={handlechange} />
             {view &&
-                <div className='absolute h-full  list-inside bg-gray-300 w-full top-12 flex flex-col sm:hidden' onClick={handlechange}>
+                <div className='absolute h-full  list-inside bg-gray-300 w-full top-12 flex flex-col md:hidden' onClick={handlechange}>
                     <li className='hover:bg-white p-2 rounded'>
                         <Link href='/add' >
                             Add User

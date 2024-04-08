@@ -178,7 +178,7 @@ const AddUser = () => {
 
           <File text={'gallery'} onChange={(e) => handleGalleryImage(e, setFormData)} typeinput="file" option={true} stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} images={formData.gallery.length} gallery={formData.gallery} onClick={(index) => handleImageRemove(index, formData, setFormData)} errors={validationErrors.gallery} />
 
-          <div className="sm:m-auto" stylediv={styles.containerdivright }  inputstyle={styles.containerdivinput}>
+          <div className="sm:m-auto  " stylediv={styles.containerdivright }  inputstyle={styles.containerdivinput}>
 
             <Select
               isMulti={true}
@@ -193,7 +193,7 @@ const AddUser = () => {
 
           {/* <File text={'Image'} onChange={(e) => handleImage(e, setFormData)} typeinput="file" option={false} stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} image={formData.image.original} errors={validationErrors?.Image} /> */}
         </div>
-        <div  className={`md:grid   lg:grid-cols-2  grid-cols-1 gap-4 flex  flex-col`} stylediv={styles.containerdivright} inputstyle={styles.containerdivinput}>
+        <div  className={`md:grid   lg:grid-cols-2  grid-cols-1 gap-4 sm:flex  sm:flex-col `} stylediv={styles.containerdivright} inputstyle={styles.containerdivinput}>
           {Object.keys(formData.images).map((key, index) => {
             const image = formData.images[key];
             console.log(image);
@@ -211,7 +211,7 @@ const AddUser = () => {
                   errors={validationErrors?.images && validationErrors?.images[index]}
                 />
                 <Button onClick={(e) => removeFields(e, index, formData, setFormData)}
-                  styles={`w-1/6 h-fit m-auto p-2 ml-10 bg-gray-300 ${formData.images.length > 0 ? 'bg-red-500 opacity-100 text-bold' : ' opacity-50 bg-red-500 cursor-not-allowed'}`}
+                  styles={`sm:w-[400px] h-fit m-auto p-2 ml-10 bg-gray-300 ${formData.images.length > 0 ? 'bg-red-500 opacity-100 text-bold' : ' opacity-50 bg-red-500 cursor-not-allowed'}`}
                   disabled={formData.variations.length <= 1}
                   text={"Remove"}
                   
@@ -221,7 +221,7 @@ const AddUser = () => {
           })}
           <Button
             onClick={handleAddImage}
-            styles={"w-[400px] m-auto p-2 bg-gray-300 mt-5 "}
+            styles={"sm:w-[400px]  m-auto p-2 bg-gray-300 mt-5 "}
             text="Add Images"
           />
 
@@ -251,14 +251,14 @@ const AddUser = () => {
                   errors={validationErrors?.[`variations[${index}].attribute.name`]}
                 />
 
-                <div className={` m-auto  `}>
+                <div className={` sm:m-auto  `}>
                   <Select
                     isMulti={true}
                     value={option?.attribute?.values?.name}
                     onChange={(selectedOptions) => handleSelectAttribute(selectedOptions, index, setFormData)}
                     placeholder="Selected Attribute"
                     options={attributetab}
-                    className="md:grid   lg:grid-cols-1 grid-cols-1 gap-4 flex  flex-col md:w-[400px] mt-5  items-center"
+                    className="md:grid   lg:grid-cols-1 grid-cols-1 gap-4 sm:flex  flex-col sm:w-[400px] w-[300px] mt-5  items-center"
                    
                   />
                   <span className="text-red-500">{validationErrors?.[`variations[${index}].attribute.values`]}</span>
@@ -266,7 +266,7 @@ const AddUser = () => {
 
               </div>
 
-              <div className="flex w-full justify-around p-10">
+              <div className="flex sm:w-full w-[300px] justify-around sm:p-10 p-2">
                 <Button onClick={(e) => removeFormFields(e, index, formData, setFormData)}
                   styles={`w-[400px] p-2 m-auto bg-gray-300 ${formData.variations.length > 1 ? 'bg-red-500 opacity-100 text-bold' : ' opacity-50 bg-red-500 cursor-not-allowed'}`}
                   disabled={formData.variations.length <= 1}
@@ -319,7 +319,7 @@ const AddUser = () => {
 
               </div>
 
-              <div className="flex w-full justify-around p-10">
+              <div className="flex sm:w-full w-[300px] justify-around sm:p-10 p-2">
 
                 <Button onClick={(e) => handleRemoveVariationOption(e, index, formData, setFormData)}
                   styles={`w-[400px] p-2 bg-gray-300 ${formData.variation_options.length > 1 ? 'bg-red-500 opacity-100 text-bold' : ' opacity-50 bg-red-500 cursor-not-allowed'}`}
@@ -332,7 +332,7 @@ const AddUser = () => {
             </div>
           ))}
         </div>
-        <div className="flex justify-end ">
+        <div className="flex justify-end  sm:w-full w-[300px] sm:p-10 p-2">
 
           <Button styles='sm:w-2/6 w-full text-green-500 border-2 bg-green-200 hover:bg-green-300   p-2' type="submit" onClick={(e) => handleformSubmit(e)} text={"Save"}></Button>
         </div>

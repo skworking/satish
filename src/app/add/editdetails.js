@@ -482,7 +482,7 @@ const Editdetails = (props) => {
     }));
   };
   return (
-    <div className={`w-full p-5 `}>
+    <div className={`w-full sm:p-5 `}>
       <h1 className={styles.heading}>Record Details Edit({data?._id})</h1>
 
       <div className='bg-white rounded'>
