@@ -157,13 +157,11 @@ const AddUser = () => {
   //    console.log(variationKeys);
 
   return (
-    <div className={styles.main}>
-
-      <h5 className={ `m-2 text-blue-400 font-bold `}>User Registration Form</h5>
-
+    <div className="">
       <form className={`${styles.formstyle} `} method="post" >
-
-        <div className='md:grid   lg:grid-cols-2  grid-cols-1 gap-4 flex  flex-col'>
+      <div className="bg-white py-5 shadow rounded">
+      <h5 className={ `m-2 text-blue-400 font-bold sm:text-2xl `}>User Registration Form</h5>
+        <div className='md:grid lg:grid-cols-2  grid-cols-1 gap-4 flex  flex-col'>
           <Input text={'name'} onChange={(e) => handleChange(e, setFormData)} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} errors={validationErrors.name} />
           <Input text={'slug'} onChange={(e) => handleChange(e, setFormData)} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} errors={validationErrors.slug} />
           <Input text={'description'} onChange={(e) => handleChange(e, setFormData)} typeinput="text" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} val={formData.description} errors={validationErrors.description} />
@@ -188,7 +186,7 @@ const AddUser = () => {
               onChange={handleSelect}
               placeholder="Selected Tags"
               options={options}
-             className="md:grid   lg:grid-cols-1 grid-cols-1 gap-4 flex  flex-col w-[200px]  items-center"
+             className="md:grid   lg:grid-cols-1 grid-cols-1 gap-4 flex  flex-col w-[400px]  items-center"
             />
             <span className="text-red-500">{validationErrors.tag}</span>
           </div>
@@ -223,20 +221,20 @@ const AddUser = () => {
           })}
           <Button
             onClick={handleAddImage}
-            styles={"w-[400px] m-auto p-2 bg-gray-300 "}
+            styles={"w-[400px] m-auto p-2 bg-gray-300 mt-5 "}
             text="Add Images"
           />
 
        
         </div>
-
+      </div>
 
         {/* { JSON.stringify(validationErrors)} */}
-        <div className="">
+        <div className="bg-white py-5 shadow rounded">
           {formData.variations.map((option, index) => (
             <div className="mt-10" key={index}>
 
-              <h1 className="text-lg text-start text-blue-400 font-bold  ">Variations </h1>
+              <h1 className="text-lg ml-2 text-start text-blue-400 font-bold  ">Variations </h1>
               <div className={`md:grid  lg:grid-cols-2 grid-cols-1 md:gap-4 flex flex-col   `}>
                 <Input text={'attribute_id'} onChange={(e) => { handleVariationNumberChange(e, index, setFormData) }} typeinput="tel" stylediv={styles.containerdivright} inputstyle={styles.containerdivinput} val={option?.attribute_id}
                   errors={validationErrors?.[`variations[${index}].attribute_id`]}
@@ -283,7 +281,7 @@ const AddUser = () => {
           <span>{validationErrors.variations}</span>
         </div>
 
-        <div>
+        <div className="bg-white py-5 shadow rounded">
           <h1 className="text-lg text-start text-blue-400 m-2  font-bold ">Variation_Options </h1>
 
           {/* {JSON.stringify(formData.variation_options.length)} */}

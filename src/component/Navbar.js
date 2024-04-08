@@ -58,7 +58,8 @@ const Navbar = ({ isAuth, onlogout }) => {
         setView(!view)
     }
     return (
-        <div className='flex w-full sm:justify-around justify-between h-[50px] py-2 items-center bg-sky-200'  >
+        <div className='flex w-full sm:justify-around justify-between h-[50px] py-2 items-center bg-gray-500  shadow'  >
+            
             {!isAuth ?
                 <BsBrilliance className='fill-red-200 w-[60px] h-[40px]' />
             :
@@ -91,6 +92,7 @@ const Navbar = ({ isAuth, onlogout }) => {
                     </li>
                 </div>
             }
+           
         </div>
     );
 };

@@ -73,7 +73,7 @@ export default function RootLayout({ children }) {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTDNEpUTHQoQUJMHLrErGJyHg89uy71MyuH5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
 
       </Head>
-      <body className={inter.className}>
+      <body className={`${inter.className } h-screen w-full sm:overflow-hidden`}>
         <ToastContainer />
         {!isAuth &&
           <div>
@@ -85,21 +85,21 @@ export default function RootLayout({ children }) {
 
               <div className="bg-gray-600  h-screen w-[15%] md:flex hidden">
                 <div className='md:flex hidden flex-col w-full p-2'>
-                  <li className='hover:bg-white p-2 rounded'>
-                    <Link href='/add'>Add User</Link>
+                  <li className='hover:bg-white p-2 rounded flex'>
+                    <Link href='/add' className="w-full">Add User</Link>
                   </li>
-                  <li className='hover:bg-white p-2 rounded'>
-                    <Link href='/user-list'>Display User</Link>
+                  <li className='hover:bg-white p-2 rounded flex'>
+                    <Link href='/user-list' className="w-full">Display User</Link>
                   </li>
-                  <li className='hover:bg-white p-2 rounded'>
-                    <Link href='/import-file'>Upload EXCEL</Link>
+                  <li className='hover:bg-white p-2 rounded flex'>
+                    <Link href='/import-file' className="w-full">Upload EXCEL</Link>
                   </li>
-                  <li className='hover:bg-white p-2 rounded' onClick={handleLogout}>
-                    <Link href='/role-login' className='p-2'>Logout</Link>
+                  <li className='hover:bg-white p-2 rounded flex' onClick={handleLogout}>
+                    <Link href='/role-login' className=' w-full'>Logout</Link>
                   </li>
                 </div>
               </div>
-              <div className="sm:overflow-auto sm:h-screen  sm:w-full ">
+              <div className="sm:overflow-x-hidden sm:h-[95vh]  sm:w-full  ">
 
                 {!isAuth && children}
               </div>

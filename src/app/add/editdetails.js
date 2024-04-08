@@ -482,12 +482,12 @@ const Editdetails = (props) => {
     }));
   };
   return (
-    <div className={`w-full`}>
+    <div className={`w-full p-5 `}>
       <h1 className={styles.heading}>Record Details Edit({data?._id})</h1>
 
-      <div className=''>
+      <div className='bg-white rounded'>
 
-        <div /* className={styles.containerdiv} */ className='md:grid gap-5 p-2  lg:grid-cols-2  grid-cols-1 flex  flex-col'>
+        <div className='md:grid gap-5 p-2  lg:grid-cols-2  grid-cols-1 flex  flex-col'>
 
           <Input
             type="text"
