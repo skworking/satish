@@ -12,9 +12,14 @@ const generateToken = () => {
   };
 const sendEmail = (email, token) => {
   console.log("call",email,token);
-const transporter = nodemailer.createTransport({
-      // Configure your email transport here
-})
+  var transport = nodemailer.createTransport({
+    host: "sandbox.smtp.mailtrap.io",
+    port: 2525,
+    auth: {
+      user: "64f3be8f066ec2",
+      pass: "f600fe9e071379"
+    }
+  });
 const mailOptions = {
     from: 'your@example.com',
     to: email,
@@ -22,7 +27,7 @@ const mailOptions = {
     text: `Click the following link to confirm your registration: http://yourwebsite.com/register/${token}`,
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
+  transport.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
     } else {

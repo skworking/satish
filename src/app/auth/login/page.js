@@ -1,14 +1,17 @@
 'use client'
+import EnterCode from '@/component/EnterCode';
 import Link from 'next/link';
 import React, { useState } from 'react'
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { ref, get, child } from 'firebase/database';
-import { auth, database } from '@/component/Firebase/firebase';
-import { encode } from 'firebase/database';
+// import { signInWithEmailAndPassword } from 'firebase/auth';
+// import { ref, get, child } from 'firebase/database';
+// import { auth, database } from '@/component/Firebase/firebase';
+// import { encode } from 'firebase/database';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [role, setRole] = useState('');
-    
+    const [otp, setOtp] = useState('');
+    const [showOtpInput, setShowOtpInput] = useState(false);
+    const [message, setMessage] = useState('');
     const handlechange = (e) => {
         setEmail(e.target.value);
     }
@@ -16,19 +19,32 @@ const Login = () => {
         setRole(event.target.value);
         console.log("Selected role:", event.target.value);
     };
-    const encodeEmailAddress = (email) => {
-        // Use the encode function to encode the email address
-        return encode(email);
-    };
+    // const encodeEmailAddress = (email) => {
+    //     // Use the encode function to encode the email address
+    //     return encode(email);
+    // };
     const handleLogin=async(e)=>{
         e.preventDefault();
         try{
-            await signInWithEmailAndPassword(auth, email, 'password');
-             // Check if user's role and email exist in the database
-             const userRef = ref(database, 'users');
-             const queryRef = orderByChild(usersRef, 'email').equalTo(email);
-             const userSnapshot = await get(queryRef);
-             console.log(userSnapshot);
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+              });
+              const data = await response.json();
+              setMessage(data.message);
+              if (response.ok) {
+                setShowOtpInput(true); // Show OTP input field if OTP sent successfully
+              }
+
+            // await signInWithEmailAndPassword(auth, email, 'password');
+            //  // Check if user's role and email exist in the database
+            //  const userRef = ref(database, 'users');
+            //  const queryRef = orderByChild(usersRef, 'email').equalTo(email);
+            //  const userSnapshot = await get(queryRef);
+            //  console.log(userSnapshot);
         
              
             //  if (userSnapshot.exists()) {
@@ -52,8 +68,28 @@ const Login = () => {
             console.log(err);
         }
     }
+    const handleVerifyOTP = async (e) => {
+        e.preventDefault();
+    
+        // Send a request to your backend API to verify OTP
+        try {
+          const response = await fetch('/api/verify-otp', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, otp }),
+          });
+          const data = await response.json();
+          setMessage(data.message);
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+
   return (
     <div className='w-full h-screen flex items-center'>
+    {showOtpInput ?
     <div className="m-10 sm:mx-auto sm:w-full sm:max-w-sm p-10 bg-slate-300 rounded">
         <h1 className='text-blue-800 '>Login User</h1>
     <form className="space-y-6" action="#" method="POST" onSubmit={(e) => { handleLogin(e) }}>
@@ -107,7 +143,16 @@ const Login = () => {
                   </Link>
                 </div>
     </form>
-</div>
+    </div>
+    :(
+        <div className='flex-col item-center m-auto flex '>
+          <input type="text" placeholder="OTP" className='block w-full rounded-md border-0 py-1.5 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  sm:text-sm sm:leading-6' value={otp} onChange={(e) => setOtp(e.target.value)} />
+          <button onClick={handleVerifyOTP}>Verify OTP</button>
+          {message && <p>{message}</p>}
+        </div>
+       
+    )
+    }
 </div>
   )
 }
