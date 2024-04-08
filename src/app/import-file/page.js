@@ -10,10 +10,6 @@ import Link from 'next/link';
 import { toast } from 'react-toastify';
 
 
-
-
-
-
 const ImportFile = () => {
 
     const [dataset, setData] = useState(null);
@@ -132,18 +128,17 @@ const ImportFile = () => {
     }
     console.log(dataset);
     return (
-        <div className='flex-col p-2'>
-            <Link href={'/user-list'}>Go to List</Link>
+        <div>
+        <div className='p-5'>
+           
             <h1 className='text-2xl text-center'>Read Excel: {filename}</h1>
-            <div className='w-full  flex bg-gray-200  p-5 mt-5' >
-                <div className='flex justify-start'>
+            <div className='w-full  flex justify-end  p-5 mt-5' >
+                <div className='flex '>
                     <h1 className='text-xl  '>Upload File</h1>
                     <FaFileAlt className='w-fit text-3xl cursor-pointer hover:fill-slate-400' onClick={() => document.getElementById('filePicker').click()} />
                 </div>
                 <input type='file' id="filePicker" accept='.csv, .xlsx' style={{ display: 'none' }} onChange={handleFileChange} />
-                {/* {data?.length > 0 &&
-        <button className='bg-gray-300 p-2 rounded hover:bg-gray-400'>Save</button>
-        } */}
+              
             </div>
            
             <table className="w-full bg-white shadow-md rounded-lg overflow-scroll inline-block sm:inline-table ">
@@ -165,18 +160,7 @@ const ImportFile = () => {
                             <td className="py-2 px-4">{user.slug}</td>
                             <td className="py-2 px-4">{user.description}</td>
                             <td className="py-2 px-4 flex justify-around">{user.brand} </td>
-                            {/* <td className="py-2 px-4 ">
                         
-                {user?.gallery.length >= 0 &&
-                  user?.gallery.map((list)=>{ return(
-                    <div key={list?._id}>
-
-                    <Image src={list.original} alt={user?.name} className="inline-block " width='50' height={20} />
-                    </div>
-                    )
-                  })
-                }
-              </td> */}
                             <td className={`py-2 px-4 sm:flex-1  ${styles.wrap} `}>
                                 <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded  mr-2" onClick={() => { handleDelete(user._id) }}>Delete</button>
                                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleEdit(user)}>Edit</button>
@@ -189,9 +173,10 @@ const ImportFile = () => {
                 </tbody>
             </table>
            
+        </div>
             {show &&
 
-                <div className='absolute top-0 h-auto w-full p-20 bg-gray-400 opacity-80 text-center'>
+                <div className='absolute  top-[50px] h-screen overflow-auto md:w-[88%]  w-[100%]  bg-gray-400 opacity-80 text-center'>
                     <IoCloseCircleOutline className=' float-right  hover:bg-white bg-gray-400 w-[30px] h-[30px] text-center  p-1 rounded-full cursor-pointer' onClick={handleCancel} />
 
                     <Editdetails data={dataset} oncancel={handleCancel} onUpdate={handleUpdate} />

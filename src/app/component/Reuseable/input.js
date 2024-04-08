@@ -4,7 +4,7 @@ const Input = (props) => {
    const {stylediv,inputstyle,text,typeinput,onChange,val,textstyle,errors}=props
   // console.log("error",errors );
    return (
-    <div className={`${stylediv}`}>
+    <div className={`${stylediv} text-start`}>
         {`${text.charAt(0).toUpperCase()}${text.slice(1)} `}:
         <input className={`${inputstyle}`}
         type={typeinput}

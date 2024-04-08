@@ -2,14 +2,38 @@ import { con } from "@/lib/db";
 import { Register } from "@/lib/model/register"
 
 import mongoose from "mongoose";
-import bcrypt from 'bcrypt';
-
+// import bcrypt from 'bcrypt';
+import nodemailer from 'nodemailer';
+import crypto from 'crypto';
 import { NextRequest, NextResponse } from "next/server";
 
+const generateToken = () => {
+    return crypto.randomBytes(20).toString('hex');
+  };
+const sendEmail = (email, token) => {
+  console.log("call",email,token);
+const transporter = nodemailer.createTransport({
+      // Configure your email transport here
+})
+const mailOptions = {
+    from: 'your@example.com',
+    to: email,
+    subject: 'Confirm Registration',
+    text: `Click the following link to confirm your registration: http://yourwebsite.com/register/${token}`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
 
 export async function POST(req, res) {
 
-    const payload=await req.json();
+  const payload=await req.json();
  
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Method Not Allowed' });
@@ -22,15 +46,19 @@ export async function POST(req, res) {
             // return res.status(400).json({ message: 'Email already registered' });
             return NextResponse.json({ message: 'Email already registered',success:false });
         }
-        const hashedPassword = await bcrypt.hash(payload.password,10); // 10 is the salt rounds
-        const newUser = new Register({email:payload.email,password:hashedPassword});
-       
-        await newUser.save();
-        // return res.status(201).json({ message: 'User registered successfully' });
-        return NextResponse.json({ message: 'User registered successfully',success:true });
+        else{
+
+          const token = generateToken();
+          const user = new Register({ email: payload.email, role: payload.role, token: token });
+         
+          sendEmail(payload.email, token);
+          
+          await user.save();
+          return NextResponse.json({ message: 'Registration email sent',success:true });
+        }
     } catch (error) {
         console.error('Registration error:', error);
         // return res.status(500).json({ message: 'Server Error' });
-        return NextResponse.json({ message: 'Server Error',success:false });
+        return NextResponse.json({ message: 'Method not allowed',success:false });
     }
 }

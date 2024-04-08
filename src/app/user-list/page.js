@@ -188,17 +188,17 @@ const [deleteItemId, setDeleteItemId] = useState(null);
   };
   
   return (
-    <div className='overflow-x-auto  items-center'>
+    <div className='items-center bg-white h-full'>
     
      
      {loading ? <div className='w-full  text-center m-auto'>Loading Data</div>
      :
-     <>
-      <div className='flex w-full justify-between  p-2'>
-      <h2 className='w-1/6 bg-red-200'>User List</h2>
-      <div className='flex   items-center border-2 border-emerald-100 p-2 '>
-          <input type='text' placeholder='Search User List ' name='search' onChange={(e)=>handleSearch(e)} className='outline-none' />
-          <CiSearch className='flex text-center' onClick={searchCall}/>
+     <div className='p-5'>
+      <div className='flex w-full justify-between  p-2 bg-gray-300'>
+      <h2 className='w-1/6 text-2xl font-bold text-center' >User List</h2>
+      <div className='flex   items-center border-2  bg-white'>
+          <input type='text' placeholder='Search User List ' name='search' onChange={(e)=>handleSearch(e)} className='outline-none p-2' />
+          <CiSearch className='flex text-center mr-2' onClick={searchCall}/>
       </div>
       <button className='bg-green-300 hover:bg-green-400 text-white font-bold px-2 rounded' onClick={()=>{handleExport(users)}}>Export data</button>
       </div>
@@ -219,32 +219,10 @@ const [deleteItemId, setDeleteItemId] = useState(null);
               <td className="py-2 px-4">{user.name}</td>
               <td className="py-2 px-4">{user.slug}</td>
               <td className="py-2 px-4">{user.description}</td>
-              <td className="py-2 px-4 flex justify-around">{user.brand}
-{/*                 
-                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{user.hobby.name}</span>
-                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{user.hobby.slug}</span> */}
-               
-                {/* <Image src={user?.image?.original || 'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg'} alt={user?.name} className="inline-block " width='50' height={20} /> */}
-               
-                {/* <img src={user?.image?.original ? `http://localhost:3000/Images/`+user?.image?.original:''}  width={100} height={50} /> */}
-              </td>
-              {/* <td className="py-2 px-4 ">
-                        
-                {user?.gallery.length >= 0 &&
-                  user?.gallery.map((list)=>{ return(
-                    <div key={list?._id}>
-
-                    <Image src={list.original} alt={user?.name} className="inline-block " width='50' height={20} />
-                    </div>
-                    )
-                  })
-                }
-              </td> */}
+              <td className="py-2 px-4 flex justify-around">{user.brand}  </td>
               <td className={`py-2 px-4 sm:flex-1  ${styles.wrap} `}>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2" onClick={()=>handleEdit(user)}>Edit</button>
                 <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded " onClick={()=>{handleDelete(user._id)}}>Delete</button>
-            
-                
               </td>
               
             </tr>
@@ -256,10 +234,10 @@ const [deleteItemId, setDeleteItemId] = useState(null);
 
       </table>
     
-     </>
+     </div>
     }
           {show && 
-          <div className='absolute top-0 h-auto w-full p-20 bg-gray-400 opacity-80 text-center'>
+          <div className='absolute top-[50px] h-screen  overflow-auto md:w-[87%] w-full   bg-gray-400 opacity-80 text-center'>
             <IoCloseCircleOutline className=' float-right  hover:bg-white bg-gray-400 w-[30px] h-[30px] text-center  p-1 rounded-full cursor-pointer' onClick={()=>{setShow(!show)}} />
               
             <Editdetails data={data} oncancel={handleCancel} onUpdate={handleUpdate}/>

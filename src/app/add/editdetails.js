@@ -10,7 +10,7 @@ import CustomConfirmation from '../component/common/customConfirmation';
 import Button from '../component/Reuseable/button';
 import File from '../component/Reuseable/file';
 import { storage } from '@/component/Firebase/firebase';
-import { getStorage,ref,uploadBytes,getDownloadURL } from 'firebase/storage';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 const Editdetails = (props) => {
   const { data, oncancel, onUpdate } = props;
   console.log(data);
@@ -58,9 +58,9 @@ const Editdetails = (props) => {
   }
 
   //////////model /////////
- const handleConfirmUpdate = async () => {
+  const handleConfirmUpdate = async () => {
     // Call your update function with formData
-  // console.log(id);
+    // console.log(id);
     const _id = data._id;
     onUpdate(formData, _id)
 
@@ -120,31 +120,31 @@ const Editdetails = (props) => {
   //   }));
   // };
 
-  const handleImage = async (e,index,formData,setFormData) => {
+  const handleImage = async (e, index, formData, setFormData) => {
     e.preventDefault();
     const imageFile = e.target.files[0];
-    try{
-      
-      const storageRef = ref(storage, `images/${imageFile.name}`); 
-      const uploadTask =await uploadBytes(storageRef, imageFile);
-         // Get download URL of the uploaded file
+    try {
+
+      const storageRef = ref(storage, `images/${imageFile.name}`);
+      const uploadTask = await uploadBytes(storageRef, imageFile);
+      // Get download URL of the uploaded file
       const downloadURL = await getDownloadURL(uploadTask.ref);
       console.log('Image uploaded successfully!', downloadURL);
 
-    const updatedImages = [...formData.images];
-    updatedImages[index] = {
-      thumbnail: downloadURL,
-      original: downloadURL
-    };
+      const updatedImages = [...formData.images];
+      updatedImages[index] = {
+        thumbnail: downloadURL,
+        original: downloadURL
+      };
 
-    // Update the state with the updated form data
-    setFormData(prevState => ({
-      ...prevState,
-      images: updatedImages
-    }));
-  } catch (error) {
-    console.error('Error uploading image:', error);
-  }
+      // Update the state with the updated form data
+      setFormData(prevState => ({
+        ...prevState,
+        images: updatedImages
+      }));
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
     // try {
     //   const data = new FormData()
     //   data.append("file", file)
@@ -214,7 +214,7 @@ const Editdetails = (props) => {
     })
 
   }
-  
+
   const handleImgRemove = (index) => {
 
     let updated = [...formData.images]
@@ -478,27 +478,17 @@ const Editdetails = (props) => {
     e.preventDefault()
     setFormData(prevState => ({
       ...prevState,
-      images: [...prevState.images, { }],
+      images: [...prevState.images, {}],
     }));
   };
   return (
-    <div>
+    <div className={`w-full sm:p-5 `}>
       <h1 className={styles.heading}>Record Details Edit({data?._id})</h1>
 
-      <div className=''>
+      <div className='bg-white rounded'>
 
-        <div className={styles.containerdiv}>
+        <div className='md:grid gap-5 p-2  lg:grid-cols-2  grid-cols-1 flex  flex-col'>
 
-          {/* <label className={styles.containerdivleft}>
-            Name:
-            <input className={styles.containerdivinput}
-              type="text"
-              name="name"
-              value={formData?.name}
-              onChange={(e) => handleChange(e, setFormData)}
-            />
-            <span className='text-red-600'>{validationErrors.name}</span>
-          </label> */}
           <Input
             type="text"
             text="name"
@@ -508,9 +498,9 @@ const Editdetails = (props) => {
             inputstyle={styles.containerdivinput}
             errors={validationErrors.name}
           />
-          <label className={styles.containerdivright}>
+          <label className={`${styles.containerdivright} text-start`}>
             Slug:
-            <input className={styles.containerdivinput}
+            <input className={`${styles.containerdivinput} `}
               type="text"
               name="slug"
               value={formData.slug}
@@ -518,7 +508,7 @@ const Editdetails = (props) => {
             />
             <span className='text-red-600'>{validationErrors.slug}</span>
           </label>
-          <label className={styles.containerdivleft}>
+          <label className={`${styles.containerdivright} text-start`}>
             Description:
             <input className={styles.containerdivinput}
               type="text"
@@ -528,7 +518,7 @@ const Editdetails = (props) => {
             />
             <span className='text-red-600'>{validationErrors.description}</span>
           </label>
-          <label className={styles.containerdivright}>
+          <label className={`${styles.containerdivright} text-start`}>
             Quantity:
             <input className={styles.containerdivinput}
               type="tel"
@@ -538,7 +528,7 @@ const Editdetails = (props) => {
             />
             <span className='text-red-600'>{validationErrors.quantity}</span>
           </label>
-          <label className={styles.containerdivright}>
+          <label className={`${styles.containerdivright} text-start`}>
             Price:
             <input className={styles.containerdivinput}
               type="text"
@@ -548,7 +538,7 @@ const Editdetails = (props) => {
             />
             <span className='text-red-600'>{validationErrors.price}</span>
           </label>
-          <label className={styles.containerdivright}>
+          <label className={`${styles.containerdivright} text-start`}>
             Sale Price:
             <input className={styles.containerdivinput}
               type="text"
@@ -558,7 +548,7 @@ const Editdetails = (props) => {
             />
             <span className='text-red-600'>{validationErrors.sale_price}</span>
           </label>
-          <label className={styles.containerdivright}>
+          <label className={`${styles.containerdivright} text-start`}>
             Brand:
             <input className={styles.containerdivinput}
               type="text"
@@ -568,7 +558,7 @@ const Editdetails = (props) => {
             />
             <span className='text-red-600'>{validationErrors.brand}</span>
           </label>
-          <label className={styles.containerdivright}>
+          <label className={`${styles.containerdivright} text-start`}>
             Weight:
             <input className={styles.containerdivinput}
               type="text"
@@ -578,9 +568,9 @@ const Editdetails = (props) => {
             />
             <span className='text-red-600'>{validationErrors.weight}</span>
           </label>
-       
 
-          <label className={styles.containerdivright}>
+
+          <label className={`${styles.containerdivright} text-start`}>
             Product Type:
             <input className={styles.containerdivinput}
               type="text"
@@ -590,7 +580,7 @@ const Editdetails = (props) => {
             />
             <span className='text-red-600'>{validationErrors.product_type}</span>
           </label>
-          <label className={styles.containerdivright}>
+          <label className={`${styles.containerdivright} text-start`}>
             Minimun Price:
             <input className={styles.containerdivinput}
               type="text"
@@ -600,7 +590,7 @@ const Editdetails = (props) => {
             />
             <span className='text-red-600'>{validationErrors.min_price}</span>
           </label>
-          <label className={styles.containerdivright}>
+          <label className={`${styles.containerdivright} text-start`}>
             Maximum Price:
             <input className={styles.containerdivinput}
               type="number"
@@ -610,14 +600,14 @@ const Editdetails = (props) => {
             />
             <span className='text-red-600'>{validationErrors.max_price}</span>
           </label>
-          <div className={`${styles.containerdivright} flex  flex-col`}>
+          <div className={`${styles.containerdivright} flex  flex-col text-start`}>
             Select Multiple Image
             <input className={styles.containerdivinput}
               // id="fileInput"
               type="file"
               accept=".png,.jpg"
               name="gallery"
-              onChange={(e)=>{handleGalleryImage(e,setFormData)}}
+              onChange={(e) => { handleGalleryImage(e, setFormData) }}
               multiple
             />
             <span className='text-red-600'>{validationErrors.gallery}</span>
@@ -642,7 +632,7 @@ const Editdetails = (props) => {
             </div>
           </div>
 
-          <section className={styles.containerdivright}>
+          <section className={`${styles.containerdivright} text-start`}>
             Select Tags:
             <Select
               isMulti={true}
@@ -655,8 +645,7 @@ const Editdetails = (props) => {
             <span className='text-red-600'>{validationErrors.tag}</span>
           </section>
 
-        </div>
-          <section >
+          <section className={`${styles.containerdivright} flex  flex-col text-start bg-gray-500`}>
             Select Image:
             {/* <input className={`${styles.containerdivinput} cursor-pointer`}
               type="file"
@@ -668,24 +657,24 @@ const Editdetails = (props) => {
             /> */}
 
             <div className="flex flex-col md:flex-row p-2 gap-2 flex-wrap">
-              {formData.images.length> 0 &&
-                formData.images.map((item,index)=>{
-                  return(
+              {formData.images.length > 0 &&
+                formData.images.map((item, index) => {
+                  return (
                     <>
-                     <File
-                      key={index}
-                      text={`Image ${index + 1}`}
-                      onChange={(e) => handleImage(e, index,formData,setFormData)}
-                      typeinput="file"
-                      option={false}
-                      stylediv={styles.containerdivright}
-                      inputstyle={styles.containerdivinput}
-                      image={item[index]?.original}
-                      errors={validationErrors?.images && validationErrors?.images[index]}
-                    />
-                    <img src={item.original} width={100} height={50} />
-                    {/* <img src={item?.original ? `http://localhost:3000/Images/` + item?.original : ''} width={100} height={50} /> */}
-                    <IoIosCloseCircle
+                      <File
+                        key={index}
+                        text={`Image ${index + 1}`}
+                        onChange={(e) => handleImage(e, index, formData, setFormData)}
+                        typeinput="file"
+                        option={false}
+                        stylediv={styles.containerdivright}
+                        inputstyle={styles.containerdivinput}
+                        image={item[index]?.original}
+                        errors={validationErrors?.images && validationErrors?.images[index]}
+                      />
+                      <img src={item.original} width={100} height={50} />
+                      {/* <img src={item?.original ? `http://localhost:3000/Images/` + item?.original : ''} width={100} height={50} /> */}
+                      <IoIosCloseCircle
                         className='cursor-pointer m-3 hover:fill-white'
                         onClick={() => { handleImgRemove(index) }} />
 
@@ -697,15 +686,16 @@ const Editdetails = (props) => {
             </div>
             <Button
               onClick={handleAddImage}
-              styles={"sm:w-1/6 w-full sm:ml-10 bg-gray-300"}
+              styles={"w-full w-full  bg-gray-300"}
               text="Add More"
             />
           </section>
+        </div>
         {formData?.variations?.map((option, index) => (
           <form className="mt-10" key={index}>
             <h1 className="text-lg text-center text-black ">Variations Form </h1>
-            <div className={styles.containerdiv}>
-              <label className={styles.containerdivright}>
+            <div className={`md:grid gap-5 p-2 lg:grid-cols-2 grid-cols-1 md:gap-4 flex flex-col `}>
+              <label className={`${styles.containerdivright} text-start`}>
                 Attribute_id:
                 <input className={styles.containerdivinput}
                   type="text"
@@ -715,7 +705,7 @@ const Editdetails = (props) => {
                 />
                 <span className='text-red-600'>{validationErrors?.[`variations[${index}].attribute_id`]}</span>
               </label>
-              <label className={styles.containerdivright}>
+              <label className={`${styles.containerdivright} text-start`}>
                 Value :
                 <input className={styles.containerdivinput}
                   type="text"
@@ -725,7 +715,7 @@ const Editdetails = (props) => {
                 />
                 <span className='text-red-600'>{validationErrors?.[`variations[${index}].value`]}</span>
               </label>
-              <label className={styles.containerdivright}>
+              <label className={`${styles.containerdivright} text-start`}>
                 Slug :
                 <input className={styles.containerdivinput}
                   type="text"
@@ -738,7 +728,7 @@ const Editdetails = (props) => {
               </label>
               {/* </div>
               <div className={styles.containerdiv}> */}
-              <label className={styles.containerdivright}>
+              <label className={`${styles.containerdivright} text-start`}>
                 Name:
                 <input className={styles.containerdivinput}
                   type="text"
@@ -749,7 +739,7 @@ const Editdetails = (props) => {
                 <span className='text-red-600'>{validationErrors?.[`variations[${index}].attribute.name`]}</span>
               </label>
 
-              <label className={styles.containerdivright}>
+              <label className={`${styles.containerdivright} text-start`}>
                 Select Attribute:
                 <Select
                   isMulti={true}
@@ -764,12 +754,12 @@ const Editdetails = (props) => {
                 <span className="text-red-500">{validationErrors?.[`variations[${index}].attribute.values`]}</span>
               </label>
             </div>
-            <div className="flex w-full justify-around p-10">
+            <div className="flex  w-full justify-around p-10">
 
-              <button onClick={handleAddVariation} className="w-1/6 ml-10 bg-gray-300 ">Add More</button>
+              <button onClick={handleAddVariation} className="w-[400px] p-2 m-auto bg-gray-300 ">Add More</button>
 
               <button onClick={() => removeFormFields(index)}
-                className={`w-1/6 p-2 ml-10 bg-gray-300 ${formData.variations.length > 1 ? 'bg-red-500 opacity-100 text-bold' : ' opacity-50 bg-red-500 cursor-not-allowed'}`}
+                className={`w-[400px] p-2 m-auto bg-gray-300 ${formData.variations.length > 1 ? 'bg-red-500 opacity-100 text-bold' : ' opacity-50 bg-red-500 cursor-not-allowed'}`}
                 disabled={formData.variations.length <= 1}
               >
                 Remove
@@ -780,14 +770,14 @@ const Editdetails = (props) => {
 
 
         <div>
-          <h1 className="text-lg text-center  ">Variation_Options Form </h1>
 
           {/* {JSON.stringify(formData.variation_options.length)} */}
           {formData.variation_options.map((option, index) => (
             <div key={index}>
-              <div className={styles.containerdiv}>
+              <h1 className="text-lg text-center  ">Variation_Options Form </h1>
+              <div className={`md:grid gap-5 p-2 lg:grid-cols-2 grid-cols-1 md:gap-4 flex flex-col `}>
 
-                <label className={styles.containerdivright}>
+                <label className={`${styles.containerdivright} text-start`}>
                   Title:
                   <input className={styles.containerdivinput}
                     type="text"
@@ -795,9 +785,9 @@ const Editdetails = (props) => {
                     value={option.title}
                     onChange={(e) => { handleVariationOptionChange(index, e) }}
                   />
-                    <span className="text-red-500">{validationErrors?.[`variation_options[${index}].title`]}</span>
+                  <span className="text-red-500">{validationErrors?.[`variation_options[${index}].title`]}</span>
                 </label>
-                <label className={styles.containerdivright}>
+                <label className={`${styles.containerdivright} text-start`}>
                   Price:
                   <input className={styles.containerdivinput}
                     type="tel"
@@ -805,9 +795,9 @@ const Editdetails = (props) => {
                     value={option.price}
                     onChange={(e) => { handleVariationOptionNumberChange(index, e) }}
                   />
-                   <span className="text-red-500">{validationErrors?.[`variation_options[${index}].price`]}</span>
+                  <span className="text-red-500">{validationErrors?.[`variation_options[${index}].price`]}</span>
                 </label>
-                <label className={styles.containerdivright}>
+                <label className={`${styles.containerdivright} text-start`}>
                   sale_price:
                   <input className={styles.containerdivinput}
                     type="text"
@@ -815,12 +805,11 @@ const Editdetails = (props) => {
                     value={option.sale_price}
                     onChange={(e) => { handleVariationOptionChange(index, e) }}
                   />
-                   <span className="text-red-500">{validationErrors?.[`variation_options[${index}].sale_price`]}</span>
+                  <span className="text-red-500">{validationErrors?.[`variation_options[${index}].sale_price`]}</span>
                 </label>
-              </div>
-              <div className={styles.containerdiv}>
+               
 
-                <label className={styles.containerdivright}>
+                <label className={`${styles.containerdivright} text-start`}>
                   quantity:
                   <input className={styles.containerdivinput}
                     type="text"
@@ -828,10 +817,10 @@ const Editdetails = (props) => {
                     value={option.quantity}
                     onChange={(e) => { handleVariationOptionChange(index, e) }}
                   />
-                   <span className="text-red-500">{validationErrors?.[`variation_options[${index}].quantity`]}</span>
+                  <span className="text-red-500">{validationErrors?.[`variation_options[${index}].quantity`]}</span>
                 </label>
 
-                <label className={styles.containerdivright}>
+                <label className={`${styles.containerdivright} text-start`}>
                   is_disable:
                   <input className={styles.containerdivinput}
                     type="text"
@@ -840,7 +829,7 @@ const Editdetails = (props) => {
                     onChange={(e) => { handleVariationOptionBoolean(index, e) }}
                   />
                 </label>
-                <label className={styles.containerdivright}>
+                <label className={`${styles.containerdivright} text-start`}>
                   sku:
                   <input className={styles.containerdivinput}
                     type="text"
@@ -848,13 +837,10 @@ const Editdetails = (props) => {
                     value={option.sku}
                     onChange={(e) => { handleVariationOptionChange(index, e) }}
                   />
-                   <span className="text-red-500">{validationErrors?.[`variation_options[${index}].sku`]}</span>
+                  <span className="text-red-500">{validationErrors?.[`variation_options[${index}].sku`]}</span>
                 </label>
-                {/* {selectedOptionIndex[index] && selectedOptionIndex[index].map((item,i)=> { 
-                  return(
-                 <div key={i}> {item?.name} </div>
-                )})} */}
-                <label className={styles.containerdivright}>
+
+                <label className={`${styles.containerdivright} text-start`}>
                   <Select
                     isMulti={true}
 
@@ -868,32 +854,30 @@ const Editdetails = (props) => {
                     options={tags}
 
                   />
-                   <span className="text-red-500">{validationErrors?.[`variation_options[${index}].options`]}</span>
-                  
+                  <span className="text-red-500">{validationErrors?.[`variation_options[${index}].options`]}</span>
+
                 </label>
               </div>
-
-              <div className="flex w-full justify-around p-10">
-                <button onClick={handleAddVariationOption} className="w-1/6 ml-10 p-2 bg-gray-300 ">Add More</button>
+              <div className="flex  w-full justify-around p-10">
+                <button onClick={handleAddVariationOption} className="w-[400px]  p-2 bg-gray-300 ">Add More</button>
 
                 <button onClick={() => handleRemoveVariationOption(index)}
-                  className={`w-1/6 p-2 ml-10 bg-gray-300 ${formData.variation_options.length > 1 ? 'bg-red-500 opacity-100 text-bold' : ' opacity-50 bg-red-500 cursor-not-allowed'}`}
+                  className={`w-[400px] p-2  bg-gray-300 ${formData.variation_options.length > 1 ? 'bg-red-500 opacity-100 text-bold' : ' opacity-50 bg-red-500 cursor-not-allowed'}`}
                   disabled={formData.variation_options.length <= 1}
                 >
                   Remove
                 </button>
               </div>
-
-
             </div>
+
           ))}
         </div>
-        <div className="flex gap-4 justify-center  items-center">
-          <button className={'bg-red-300 sm:w-[200px] p-2 hover:bg-red-500'} onClick={oncancel}>Cancel</button>
-          <button className={'bg-green-300 sm:w-[200px] p-2 hover:bg-green-500'} onClick={handleUpdate}>Update</button>
+        <div className="flex w-full justify-around p-10">
+          <button className={'bg-red-300 sm:w-[400px] p-2 hover:bg-red-500'} onClick={oncancel}>Cancel</button>
+          <button className={'bg-green-300 sm:w-[400px] p-2 hover:bg-green-500'} onClick={handleUpdate}>Update</button>
         </div>
       </div>
-     
+
       {isConfirmationOpen && (
         <CustomConfirmation
           message="Are you sure you want to update the data?"

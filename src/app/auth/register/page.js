@@ -1,13 +1,14 @@
 'use client'
 import Link from 'next/link';
 import React, { useState } from 'react'
-import { auth, database } from '@/component/Firebase/firebase';
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { ref, set } from 'firebase/database';
+// import { auth, database } from '@/component/Firebase/firebase';
+// import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+// import { ref, set } from 'firebase/database';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
-const RoleRegister = () => {
+
+const Register = () => {
     const [email, setEmail] = useState('');
     const [role, setRole] = useState('');
     const [isSigningUp, setIsSigningUp] = useState(false);
@@ -22,38 +23,54 @@ const RoleRegister = () => {
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        try {
-            setIsSigningUp(true);
-            const userCredential = await createUserWithEmailAndPassword(auth, email, 'password');
-
-            // Send email verification
-
-            await sendEmailVerification(userCredential.user);
-
-            const verificationTimeout = 60000; // 60 seconds
-            const startTime = Date.now();
-            while (!userCredential.user.emailVerified && (Date.now() - startTime < verificationTimeout)) {
-                // Wait for 1 second before checking again
-                console.log("call");
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                // Refresh user data to check email verification status
-                await userCredential.user.reload();
+        try { 
+            const data ={
+                role:role,
+                email:email
+               
             }
+            console.log(data);
+            let result = await fetch("/api/register", {
+                method: "POST",
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+              });
+            result = await result.json();
+            console.log(result);
+            // const response = await Axios.post('/api/register',data);
+            // console.log(response);
+            // const userCredential = await createUserWithEmailAndPassword(auth, email, 'password');
+
+            // // Send email verification
+
+            // await sendEmailVerification(userCredential.user);
+
+            // const verificationTimeout = 60000; // 60 seconds
+            // const startTime = Date.now();
+            // while (!userCredential.user.emailVerified && (Date.now() - startTime < verificationTimeout)) {
+            //     // Wait for 1 second before checking again
+            //     console.log("call");
+            //     await new Promise(resolve => setTimeout(resolve, 1000));
+            //     // Refresh user data to check email verification status
+            //     await userCredential.user.reload();
+            // }
     
-            // Check if email is verified
-            if (userCredential.user.emailVerified) {
-                // Store user with role in Realtime Database
-                const userRef = ref(database, 'users/' + userCredential.user.uid);
-                await set(userRef, {
-                    email,
-                    role
-                });
+            // // Check if email is verified
+            // if (userCredential.user.emailVerified) {
+            //     // Store user with role in Realtime Database
+            //     const userRef = ref(database, 'users/' + userCredential.user.uid);
+            //     await set(userRef, {
+            //         email,
+            //         role
+            //     });
     
-                toast.success("User registered successfully");
-                router.push('/login', { scroll: false });
-            } else {
-                throw new Error('Email verification timed out');
-            }
+            //     toast.success("User registered successfully");
+            //     router.push('/login', { scroll: false });
+            // } else {
+            //     throw new Error('Email verification timed out');
+            // }
 
         } catch (error) {
             setIsSigningUp(false);
@@ -62,8 +79,9 @@ const RoleRegister = () => {
 
     }
     return (
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-2">
-            <h1>Register User</h1>
+        <div className='w-full h-screen flex items-center'>
+        <div className="m-10 sm:mx-auto sm:w-full sm:max-w-sm p-10 bg-slate-300 rounded">
+            <h1 className='text-blue-800 '>Register User</h1>
             <form className="space-y-6" action="#" method="POST" onSubmit={(e) => { handleRegister(e) }}>
                 <div className="mt-2">
                     <select
@@ -71,7 +89,7 @@ const RoleRegister = () => {
                         name="role"
                         value={role}
                         onChange={handleRoleChange}
-                        className="block w-full rounded-md border-2 py-1.5 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-2 py-1.5 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset  sm:text-sm sm:leading-6"
                     >
                         <option value="">Select Role</option>
                         <option value="user">User</option>
@@ -90,8 +108,7 @@ const RoleRegister = () => {
                             type="email"
                             onChange={handlechange}
                             autoComplete="email"
-                         
-                            className="block w-full rounded-md border-0 py-1.5 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="block w-full rounded-md border-0 py-1.5 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  sm:text-sm sm:leading-6"
                         />
                     </div>
                 </div>
@@ -110,13 +127,14 @@ const RoleRegister = () => {
                 </div>
                 <div className="text-sm">
                     user registered?
-                    <Link href="/login" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                    <Link href="/auth/login" className="font-semibold text-indigo-600 hover:text-indigo-500">
                         login user
                     </Link>
                 </div>
             </form>
         </div>
+        </div>
     )
 }
 
-export default RoleRegister;
+export default Register;

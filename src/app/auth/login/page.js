@@ -102,7 +102,7 @@ const Login = () => {
         </div>
         <div className="text-sm">
                 New user?
-                  <Link href="/register" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                  <Link href="/auth/register" className="font-semibold text-indigo-600 hover:text-indigo-500">
                     register user
                   </Link>
                 </div>

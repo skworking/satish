@@ -14,11 +14,14 @@ const NavList = ({ isAuth, onlogout, setView, view }) => {
     //     setView(!view)
     // }
     return (
-        <ul className='flex gap-2  '>
-            {isAuth ? (
+        <ul className='flex  gap-1  '>
+            {!isAuth ? (
                 <>
                     <div className='sm:flex hidden '>
-                        <li className='hover:bg-white p-2 rounded'>
+                        <div>
+                        search 
+                        </div>
+                        {/* <li className='hover:bg-white p-2 rounded'>
                             <Link href='/add'>Add User</Link>
                         </li>
                         <li className='hover:bg-white p-2 rounded'>
@@ -29,7 +32,7 @@ const NavList = ({ isAuth, onlogout, setView, view }) => {
                         </li>
                         <li className='hover:bg-white p-2 rounded' onClick={handleLogout}>
                             <Link href='/role-login' className='p-2'>Logout</Link>
-                        </li>
+                        </li> */}
                     </div>
                     {view ?
                         <BsXSquare className='flex sm:hidden w-[60px] h-[40px] cursor-pointer' onClick={setView} />
@@ -40,7 +43,7 @@ const NavList = ({ isAuth, onlogout, setView, view }) => {
                 </>
             ) : (
                 <li className='hover:bg-white p-2 rounded'>
-                    <Link href='/role-login' className='p-2'>Login</Link>
+                    <Link href='/auth/login' className='p-2'>Login</Link>
                 </li>
             )}
         </ul>
@@ -55,7 +58,8 @@ const Navbar = ({ isAuth, onlogout }) => {
         setView(!view)
     }
     return (
-        <div className='flex w-full sm:justify-around justify-between h-[50px] py-2 items-center bg-slate-500'  >
+        <div className='flex w-full sm:justify-around justify-between h-[50px] py-2 items-center bg-gray-500  shadow'  >
+            
             {!isAuth ?
                 <BsBrilliance className='fill-red-200 w-[60px] h-[40px]' />
             :
@@ -65,7 +69,7 @@ const Navbar = ({ isAuth, onlogout }) => {
             }
             <NavList isAuth={isAuth} onlogout={onlogout} view={view} setView={handlechange} />
             {view &&
-                <div className='absolute h-full  list-inside bg-gray-300 w-full top-12 flex flex-col sm:hidden' onClick={handlechange}>
+                <div className='absolute h-full  list-inside bg-gray-300 w-full top-12 flex flex-col md:hidden' onClick={handlechange}>
                     <li className='hover:bg-white p-2 rounded'>
                         <Link href='/add' >
                             Add User
@@ -88,6 +92,7 @@ const Navbar = ({ isAuth, onlogout }) => {
                     </li>
                 </div>
             }
+           
         </div>
     );
 };
