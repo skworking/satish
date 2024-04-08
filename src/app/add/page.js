@@ -90,7 +90,7 @@ const AddUser = () => {
 
   const handleImage = async (e, index, formData, setFormData) => {
     e.preventDefault();
-    console.log("caa");
+    // console.log("caa");
     const imageFile = e.target.files[0];
     try {
 

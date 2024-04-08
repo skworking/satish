@@ -13,13 +13,14 @@ const Register = () => {
                 email:email,
                 password:password
             }
-            const response = await axios.post('/api/register',data);
-            if(response.data.success){
-                toast.success(response.data.message)
-                router.push('/login',{scroll:false})
-            }else{
-                toast.warning(`${response.data.message}`)
-            }
+            console.log("----- register 1");
+            // const response = await axios.post('/api/register',data);
+            // if(response.data.success){
+            //     toast.success(response.data.message)
+            //     router.push('/login',{scroll:false})
+            // }else{
+            //     toast.warning(`${response.data.message}`)
+            // }
            
           } catch (error) {
             console.error('Registration failed:', error); // Handle error

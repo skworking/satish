@@ -43,7 +43,7 @@ const NavList = ({ isAuth, onlogout, setView, view }) => {
                 </>
             ) : (
                 <li className='hover:bg-white p-2 rounded'>
-                    <Link href='/role-login' className='p-2'>Login</Link>
+                    <Link href='/auth/login' className='p-2'>Login</Link>
                 </li>
             )}
         </ul>

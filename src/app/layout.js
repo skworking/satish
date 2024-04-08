@@ -22,11 +22,11 @@ const WithCustomLoading = dynamic(
   }
 )
 
-const DynamicLogin = dynamic(() => import('./role-login/page'), {
+const DynamicLogin = dynamic(() => import('./auth/login/page'), {
   loading: () => <WithCustomLoading />,
 });
 
-const DynamicRegister = dynamic(() => import('./role-register/page'), {
+const DynamicRegister = dynamic(() => import('./auth/register/page'), {
   loading: () => <WithCustomLoading />,
 });
 
@@ -60,7 +60,7 @@ export default function RootLayout({ children }) {
   const handleLogout = () => {
     sessionStorage.removeItem('jwt');
     setIsAuth(false); // Update the authentication status when the user logs out
-    router.push('/login')
+    router.push('/auth/login')
   };
 
 
@@ -75,7 +75,7 @@ export default function RootLayout({ children }) {
       </Head>
       <body className={`${inter.className } h-screen w-full sm:overflow-hidden`}>
         <ToastContainer />
-        {!isAuth &&
+        {isAuth &&
           <div>
             <Navbar isAuth={isAuth} onlogout={handleLogout} />
 
@@ -101,7 +101,7 @@ export default function RootLayout({ children }) {
               </div>
               <div className="sm:overflow-x-hidden sm:h-[95vh]  sm:w-full  ">
 
-                {!isAuth && children}
+                {isAuth && children}
               </div>
             </div>
           </div>
@@ -112,8 +112,8 @@ export default function RootLayout({ children }) {
           {/* </ProtectedRoute> */}
         </div>
 
-        {/* {!isAuth && pathname !== '/register' && <DynamicLogin onLoginSuccess={handleLoginSuccess} />}
-        {!isAuth && pathname !== '/login' && <DynamicRegister />} */}
+        {!isAuth && pathname !== '/auth/register' && <DynamicLogin onLoginSuccess={handleLoginSuccess} />}
+        {!isAuth && pathname !== '/auth/login' && <DynamicRegister />}
 
 
       </body>
